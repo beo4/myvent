@@ -25,7 +25,7 @@ grails.project.dependency.resolution = {
         // uncomment these to enable remote dependency resolution from public Maven repositories
         //mavenCentral()
         //mavenLocal()
-        //mavenRepo "http://snapshots.repository.codehaus.org"
+        mavenRepo "http://foursquare-api-java.googlecode.com/svn/repository"
         //mavenRepo "http://repository.codehaus.org"
         //mavenRepo "http://download.java.net/maven/2/"
         //mavenRepo "http://repository.jboss.com/maven2/"
@@ -34,6 +34,7 @@ grails.project.dependency.resolution = {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
 
         runtime 'mysql:mysql-connector-java:5.1.16'
+		compile 'fi.foyt:foursquare-api:1.0.2'
     }
 
     plugins {

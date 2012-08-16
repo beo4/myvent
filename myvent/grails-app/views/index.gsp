@@ -7,6 +7,11 @@
 
 	<body>
 		<div class="row-fluid">
+		
+		<section id="searchLocation">
+		<g:formRemote name="searchLocation" url=""></g:formRemote>
+		</section>
+		
 			<aside id="application-status" class="span3">
 				<div class="well sidebar-nav">
 					<h5>Application Status</h5>
