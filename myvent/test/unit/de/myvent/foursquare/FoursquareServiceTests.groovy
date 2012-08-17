@@ -1,9 +1,11 @@
-package de.element.eventguide.foursquare
+package de.myvent.foursquare
 
 
 
 import grails.test.mixin.*
 import org.junit.*
+
+import de.myvent.foursquare.FoursquareService;
 
 /**
  * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
@@ -13,6 +15,7 @@ class FoursquareServiceTests {
 
     void testSomething() {
 		FoursquareService foursquareService = new FoursquareService();
-        assertNotNull(foursquareService.getVenuesAt("40.7,-74"))
+        //assertNotNull(foursquareService.getVenuesAt("40.7,-74"))
+		assertNotNull(foursquareService.getVenuesNear("Rosenheim, Germany"))
     }
 }

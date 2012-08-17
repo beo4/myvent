@@ -12,7 +12,7 @@ grails.project.dependency.resolution = {
         // uncomment to disable ehcache
         // excludes 'ehcache'
     }
-    log "error" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
+    log "warn" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
     checksums true // Whether to verify checksums on resolve
 
     repositories {
@@ -25,16 +25,18 @@ grails.project.dependency.resolution = {
         // uncomment these to enable remote dependency resolution from public Maven repositories
         //mavenCentral()
         //mavenLocal()
-        mavenRepo "http://foursquare-api-java.googlecode.com/svn/repository"
+        //mavenRepo "http://foursquare-api-java.googlecode.com/svn/repository"
         //mavenRepo "http://repository.codehaus.org"
         //mavenRepo "http://download.java.net/maven/2/"
         //mavenRepo "http://repository.jboss.com/maven2/"
+		//mavenRepo "http://maven.springframework.org/release"
     }
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
 
         runtime 'mysql:mysql-connector-java:5.1.16'
-		compile 'fi.foyt:foursquare-api:1.0.2'
+		//compile 'fi.foyt:foursquare-api:1.0.2'
+		compile 'org.springframework.social:spring-social-foursquare:1.0.8.RELEASE'
     }
 
     plugins {
