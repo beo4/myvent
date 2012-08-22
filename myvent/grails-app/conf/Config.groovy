@@ -109,5 +109,5 @@ grails.plugins.springsecurity.authority.className = 'de.myvent.users.Role'
 grails.plugins.springsecurity.requestMap.className = 'de.myvent.users.Requestmap'
 grails.plugins.springsecurity.securityConfigType = 'Requestmap'
 
-plugins.springsocial.foursquare.clientId="MRBDP1Q4SBHLWYJULJJNO5A22IMSKGBVKJULVPAP1HC0403D"
-plugins.springsocial.foursquare.clientSecret="JXT2GJFG3VYIT0OCLET2ROFFMQ2IDCCXBWA3KXGJ5UTP3CYO"
+plugins.springsocial.foursquare.clientId='MRBDP1Q4SBHLWYJULJJNO5A22IMSKGBVKJULVPAP1HC0403D'
+plugins.springsocial.foursquare.clientSecret='JXT2GJFG3VYIT0OCLET2ROFFMQ2IDCCXBWA3KXGJ5UTP3CYO'

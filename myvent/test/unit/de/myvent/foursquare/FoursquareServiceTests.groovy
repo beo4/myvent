@@ -14,7 +14,10 @@ class FoursquareServiceTests {
     void testGetVenuesAt(){
 		def foursquareService = new FoursquareService()
 		assert grailsApplication.config.plugins.springsocial.foursquare.clientId
+		assert grailsApplication.config.plugins.springsocial.foursquare.clientSecret
+		println grailsApplication.config.plugins.springsocial.foursquare.clientId
+		println grailsApplication.config.plugins.springsocial.foursquare.clientSecret
 		foursquareService.grailsApplication = grailsApplication
-		assert foursquareService.getVenuesAt(20,30)
+		assert foursquareService.getVenuesAt(44.3,37.2)
     }
 }
