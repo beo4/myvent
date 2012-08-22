@@ -1,7 +1,9 @@
 package de.myvent.foursquare
 
+import org.codehaus.groovy.grails.commons.GrailsApplication;
+
 class TestService {
-	def grailsApplication
+	GrailsApplication grailsApplication
 	
 			def readFoo() {
 					assert grailsApplication.config
