@@ -6,7 +6,7 @@ import org.springframework.social.foursquare.connect.FoursquareServiceProvider
 
 
 
-class FoursquareService {
+class FoursquareServiceOLD {
 	def grailsApplication
 	
 	private FoursquareServiceProvider foursquareServiceProvider
@@ -57,7 +57,7 @@ class FoursquareService {
 		//		  return null
 		//		}
 		
-		serviceProvider.getApi().venueOperations().search(new VenueSearchParams(near))
+		getFoursquareServiceProvider().getApi().venueOperations().search(new VenueSearchParams(near))
 
 	}
 }
