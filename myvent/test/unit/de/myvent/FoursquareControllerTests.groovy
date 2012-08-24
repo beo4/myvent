@@ -10,8 +10,15 @@ import org.junit.*
  */
 @TestFor(FoursquareController)
 class FoursquareControllerTests {
-
-    void testSomething() {
-		
+	
+	def populateValidParams(params) {
+		assert params != null
+		// TODO: Populate valid properties like...
+		params["lat"] = 40.3
+		params["lgt"] = 40.3
+	  }
+	
+    void testIndex() {
+		controller.index()
     }
 }

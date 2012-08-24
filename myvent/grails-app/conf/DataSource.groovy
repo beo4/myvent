@@ -13,13 +13,15 @@ hibernate {
 environments {
     development {
         dataSource {
-            dbCreate = "update"
-			pooled = true
-			driverClassName = "com.mysql.jdbc.Driver"
-			dialect = "org.hibernate.dialect.MySQL5InnoDBDialect"
-            url = "jdbc:mysql://mediaHub/eventguide?useUnicode=yes&characterEncoding=UTF-8"
-            username = "eventG"
-            password = "eventG"
+//            dbCreate = "update"
+//			pooled = true
+//			driverClassName = "com.mysql.jdbc.Driver"
+//			dialect = "org.hibernate.dialect.MySQL5InnoDBDialect"
+//            url = "jdbc:mysql://mediaHub/eventguide?useUnicode=yes&characterEncoding=UTF-8"
+//            username = "eventG"
+//            password = "eventG"
+			dbCreate = "update"
+			url = "jdbc:h2:mem:testDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
         }
         hibernate {
             show_sql = true
@@ -28,6 +30,7 @@ environments {
     test {
         dataSource {
             dbCreate = "update"
+			pooled = true
             url = "jdbc:h2:mem:testDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
         }
     }

@@ -7,9 +7,12 @@ import org.springframework.social.foursquare.api.Foursquare
 import grails.converters.JSON
 
 class FoursquareController {
-	
+	def foursquare
 
-
+	def index() {
+		params.lat
+		params.lgt
+	}
 	
 	
 }

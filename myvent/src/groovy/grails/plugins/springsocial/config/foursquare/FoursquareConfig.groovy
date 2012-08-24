@@ -1,9 +1,11 @@
 package grails.plugins.springsocial.config.foursquare
 
+import de.myvent.users.SimpleConnectionSignUp
 import de.myvent.users.User
 import grails.plugins.springsecurity.SpringSecurityService;
 
 import javax.inject.Inject
+
 
 import org.codehaus.groovy.grails.commons.GrailsApplication;
 import org.springframework.context.annotation.Bean
@@ -29,8 +31,13 @@ import org.springframework.util.Assert
 class FoursquareConfig {
   @Inject
   ConnectionRepository connectionRepository
+  @Inject
   GrailsApplication grailsApplication
+  @Inject
   SpringSecurityService springSecurityService
+  
+  @Inject
+  def dataSource
   
   /**
    * When a new provider is added to the app, register its {@link ConnectionFactory} here.
@@ -53,10 +60,36 @@ class FoursquareConfig {
 	new FoursquareConnectionFactory(clientId, clientSecret)
   }
   
+  /**
+   * Singleton data access object providing access to connections across all users.
+   */
+  @Bean
+  public UsersConnectionRepository usersConnectionRepository() {
+	  JdbcUsersConnectionRepository repository = new JdbcUsersConnectionRepository(dataSource,
+			  connectionFactoryLocator(), Encryptors.noOpText());
+	  repository.setConnectionSignUp(new SimpleConnectionSignUp());
+	  return repository;
+  }
+
+  /**
+   * Request-scoped data access object providing access to the current user's connections.
+   */
+  @Bean
+  @Scope(value="request", proxyMode=ScopedProxyMode.INTERFACES)
+  public ConnectionRepository connectionRepository() {
+	  User user = springSecurityService.getCurrentUser()
+	  if (user) {
+		  return usersConnectionRepository().createConnectionRepository(user.id())
+	  } else {
+	  	return usersConnectionRepository().createConnectionRepository(0);
+	  }
+	  	
+  }
+  
   @Bean
   @Scope(value = "request", proxyMode = ScopedProxyMode.INTERFACES)
   public Foursquare foursquare() {
-	Connection<Foursquare> foursquare = connectionRepository.findPrimaryConnection(Foursquare)
+	Connection<Foursquare> foursquare = connectionRepository().findPrimaryConnection(Foursquare)
 	foursquare != null ? foursquare.getApi() : new FoursquareTemplate()
   }
 }
