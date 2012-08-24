@@ -1,7 +1,5 @@
 package de.myvent.foursquare
 
-import grails.plugins.springsocial.config.foursquare.FoursquareConfig;
-
 import org.springframework.social.connect.ConnectionFactoryLocator
 import org.springframework.social.connect.support.ConnectionFactoryRegistry
 import org.springframework.social.foursquare.api.VenueSearchParams
@@ -12,7 +10,6 @@ import org.springframework.social.foursquare.connect.FoursquareServiceProvider;
 
 class FoursquareService {
 	def grailsApplication
-	FoursquareConfig foursquareConfig
 	FoursquareTemplate foursquareTemplate
 	
 	def FoursquareTemplate getFoursquareTemplate() {
@@ -24,13 +21,12 @@ class FoursquareService {
 
 	def getVenuesAt(lat,lng){
 		//getFoursquareServiceProvider().getApi().venueOperations().search(new VenueSearchParams().location(lat,lng))
-		
 		return getFoursquareTemplate().venueOperations().search(new VenueSearchParams().location(lat,lng))
 	}
 
-	def getVenuesNear(near){
-
-		getFoursquareServiceProvider().getApi().venueOperations().search(new VenueSearchParams(near))
-
-	}
+//	def getVenuesNear(near){
+//
+//		getFoursquareServiceProvider().getApi().venueOperations().search(new VenueSearchParams(near))
+//
+//	}
 }

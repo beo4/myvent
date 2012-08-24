@@ -2,7 +2,6 @@ package de.myvent.foursquare
 
 
 
-import grails.plugins.springsocial.config.foursquare.FoursquareConfig
 import grails.test.mixin.*
 import org.junit.*
 
@@ -12,13 +11,12 @@ import org.junit.*
  */
 @TestFor(FoursquareService)
 class FoursquareServiceTests {
-	FoursquareConfig foursquareConfig
 	
     void testGetVenuesAt(){
 		def foursquareService = new FoursquareService()
 		foursquareService.grailsApplication = grailsApplication
-		foursquareConfig = new FoursquareConfig();
-		foursquareService.foursquareConfig = foursquareConfig
-		assert foursquareService.getVenuesAt(44.3,37.2)
+		def venues = foursquareService.getVenuesAt(44.3,37.2)
+		assert venues
+		
     }
 }

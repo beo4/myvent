@@ -1,0 +1,3 @@
+[submodule "spring-social-foursquare"]
+	path = spring-social-foursquare
+	url = https://github.com/beo4/spring-social-foursquare.git
