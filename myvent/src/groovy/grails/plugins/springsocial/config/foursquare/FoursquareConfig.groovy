@@ -21,6 +21,7 @@ import org.springframework.social.connect.NotConnectedException;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
 import org.springframework.social.connect.support.ConnectionFactoryRegistry;
+import org.springframework.social.connect.web.ConnectController
 import org.springframework.social.connect.web.ProviderSignInController;
 import org.springframework.social.foursquare.api.Foursquare
 import org.springframework.social.foursquare.api.impl.FoursquareTemplate
@@ -84,6 +85,12 @@ class FoursquareConfig {
 	  	return usersConnectionRepository().createConnectionRepository(0);
 	  }
 	  	
+  }
+  
+  @Bean
+  public ConnectController connectController() {
+	  return new ConnectController(connectionFactoryLocator(),
+		  connectionRepository());
   }
   
   @Bean

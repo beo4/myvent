@@ -1,15 +1,17 @@
 package de.myvent
 
 
-
 import grails.test.mixin.*
 import org.junit.*
+
+import de.myvent.foursquare.FoursquareService;
 
 /**
  * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for usage instructions
  */
 @TestFor(FoursquareController)
-class FoursquareControllerTests {
+class FoursquareControllerTests{
+	def foursquareService
 	
 	def populateValidParams(params) {
 		assert params != null
@@ -21,4 +23,11 @@ class FoursquareControllerTests {
     void testIndex() {
 		controller.index()
     }
+	
+	void testLocation() {
+		def foursquareController = new FoursquareController()
+		assert foursquareService
+		foursquareController.foursquareService = foursquareService
+		assert foursquareController.locationsNear()
+	}
 }
