@@ -11,7 +11,6 @@ import de.myvent.foursquare.FoursquareService;
  */
 @TestFor(FoursquareController)
 class FoursquareControllerTests{
-	def foursquareService
 	
 	def populateValidParams(params) {
 		assert params != null
@@ -25,9 +24,11 @@ class FoursquareControllerTests{
     }
 	
 	void testLocation() {
+		defineBeans {
+			foursquareService(FoursquareService)
+		}
 		def foursquareController = new FoursquareController()
-		assert foursquareService
-		foursquareController.foursquareService = foursquareService
+		assert foursquareController.foursquareService
 		assert foursquareController.locationsNear()
 	}
 }
