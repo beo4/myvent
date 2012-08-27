@@ -15,8 +15,8 @@ class FoursquareControllerTests{
 	def populateValidParams(params) {
 		assert params != null
 		// TODO: Populate valid properties like...
-		params["lat"] = 40.3
-		params["lgt"] = 40.3
+		params["lat"] = 44.3
+		params["lgt"] = 37.2
 	  }
 	
     void testIndex() {
@@ -27,8 +27,16 @@ class FoursquareControllerTests{
 		defineBeans {
 			foursquareService(FoursquareService)
 		}
+		populateValidParams(params)
+		
 		def foursquareController = new FoursquareController()
 		assert foursquareController.foursquareService
-		assert foursquareController.locationsNear()
+		foursquareController.foursquareService.grailsApplication = grailsApplication
+		foursquareController.locationsNear()
+		assert response.json
+//		assert results
+//		results.each {
+//			println it.location
+//		}
 	}
 }

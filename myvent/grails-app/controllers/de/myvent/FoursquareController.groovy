@@ -16,7 +16,8 @@ class FoursquareController {
 	}
 	
 	def locationsNear() {
-		render foursquareService.getVenuesAt(params.lat,params.lgt) as JSON
+		def venues = foursquareService.getVenuesAt(params.lat,params.lgt)
+		render venues as JSON
 	}
 	
 	

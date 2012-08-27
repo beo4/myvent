@@ -21,15 +21,14 @@ class FoursquareService {
 	}
 	
 	def getVenuesAt(lat,lng){
-		getFoursquareServiceProvider().getApi().venueOperations().search(new VenueSearchParams().location(lat,lng))
+		return getFoursquareServiceProvider().getApi().venueOperations().search(new VenueSearchParams().location(lat,lng))
 		//connectionRepository().findPrimaryConnection(Foursquare)
 		
-		return foursquare().venueOperations().search(new VenueSearchParams().location(lat,lng))
+		//return foursquare().venueOperations().search(new VenueSearchParams().location(lat,lng))
 	}
 
-//	def getVenuesNear(near){
-//
-//		getFoursquareServiceProvider().getApi().venueOperations().search(new VenueSearchParams(near))
-//
-//	}
+	def getVenuesNear(near){
+
+
+	}
 }

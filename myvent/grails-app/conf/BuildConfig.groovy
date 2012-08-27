@@ -54,4 +54,4 @@ grails.project.dependency.resolution = {
         build ":tomcat:$grailsVersion"
     }
 }
-grails.plugin.location.'grails-spring-social-foursquare' = "C:/Develop/workspace/sts-3.0.0/grails-spring-social-foursquare"
+grails.plugin.location.'grails-spring-social-foursquare' = "C:/Develop/workspace/sts-3.0.0/grails-spring-social-foursquare-git/grails-spring-social-foursquare"

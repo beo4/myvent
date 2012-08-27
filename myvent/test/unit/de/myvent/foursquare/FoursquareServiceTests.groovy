@@ -20,7 +20,11 @@ class FoursquareServiceTests {
 		def service = new FoursquareService()
 		service.grailsApplication = grailsApplication
 		//def venues = foursquareService.getVenuesAt(44.3,37.2)
-		assert service.getVenuesAt(44.3,37.2)
+		def venues = service.getVenuesAt(44.3,37.2)
+		assert venues
+		venues.each {
+			println it.location
+		}
 		
     }
 }
