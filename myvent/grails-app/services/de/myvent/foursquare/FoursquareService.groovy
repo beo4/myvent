@@ -12,12 +12,21 @@ import org.springframework.social.foursquare.connect.FoursquareServiceProvider;
 
 
 class FoursquareService {
+	Foursquare foursquare
 	FoursquareConfig foursquareConfig
-
+	
+	def Foursquare getFoursquare() {
+		if (!foursquare) {
+			foursquare = foursquareConfig.foursquare()
+		}
+		
+		return foursquare
+	}
 
 	def getVenuesAt(lat,lng){
 		//getFoursquareServiceProvider().getApi().venueOperations().search(new VenueSearchParams().location(lat,lng))
-		return foursquareConfig.foursquare().venueOperations().search(new VenueSearchParams().location(lat,lng))
+		
+		return getFoursquare().venueOperations().search(new VenueSearchParams().location(lat,lng))
 	}
 
 //	def getVenuesNear(near){

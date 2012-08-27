@@ -9,6 +9,7 @@
 // if (System.properties["${appName}.config.location"]) {
 //    grails.config.locations << "file:" + System.properties["${appName}.config.location"]
 // }
+import grails.plugins.springsecurity.SecurityConfigType
 
 
 grails.project.groupId = appName // change this to alter the default package name and Maven publishing destination
@@ -100,16 +101,26 @@ log4j = {
            'org.springframework',
            'org.hibernate',
            'net.sf.ehcache.hibernate'
+		   
+	info 'grails.plugins.springsocial', 'grails.plugins.controllers.grails.plugins.springsocial'
 }
 
+grails.plugins.springsecurity.securityConfigType = SecurityConfigType.Requestmap
 // Added by the Spring Security Core plugin:
 grails.plugins.springsecurity.userLookup.userDomainClassName = 'de.myvent.users.User'
 grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'de.myvent.users.UserRole'
 grails.plugins.springsecurity.authority.className = 'de.myvent.users.Role'
 grails.plugins.springsecurity.requestMap.className = 'de.myvent.users.Requestmap'
-grails.plugins.springsecurity.securityConfigType = 'Requestmap'
 
 //plugins.springsocial.foursquare.clientId='MRBDP1Q4SBHLWYJULJJNO5A22IMSKGBVKJULVPAP1HC0403D'
 //plugins.springsocial.foursquare.clientSecret='JXT2GJFG3VYIT0OCLET2ROFFMQ2IDCCXBWA3KXGJ5UTP3CYO'
 plugins.springsocial.foursquare.clientId='ISRITND41X21YZNO0ICADIVKOHUZ4HKBCNAE1QFMZFY3K2EK'
 plugins.springsocial.foursquare.clientSecret='2PUF2FLNQK4P0ZXDAMURX1VPFBUWRHJDWYQV5QVOQEFOFB1K'
+
+grails.plugins.springsocial.facebook.clientId='265254830258145'
+grails.plugins.springsocial.facebook.clientSecret='2e682bb95251f950c6694f01bd066334'
+
+
+//Configuration for twitter
+grails.plugins.springsocial.twitter.consumerKey = "0trM4GpWXiE92psB9vQPVg"
+grails.plugins.springsocial.twitter.consumerSecret = "mGBtxxsTmzxzItRhTM2WpiN8GwmWUfD2YZxjNQDDA0"

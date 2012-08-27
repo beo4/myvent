@@ -14,6 +14,7 @@
 		
 			<aside id="application-status" class="span3">
 				<div class="well sidebar-nav">
+					
 					<h5>Application Status</h5>
 					<ul>
 						<li>App version: <g:meta name="app.version"/></li>

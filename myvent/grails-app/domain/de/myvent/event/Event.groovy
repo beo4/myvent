@@ -12,7 +12,8 @@ class Event {
 	String description
 	Type type
 	
-	Address adress
+	Place place
+	Period period
 	
 	Image eventPicture
 	

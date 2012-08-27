@@ -7,5 +7,6 @@ class Place {
     static constraints = {
     }
 	
-	Venue venue
+	//Venue venue
+	long venueId
 }

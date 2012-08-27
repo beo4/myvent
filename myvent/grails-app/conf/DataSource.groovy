@@ -20,7 +20,7 @@ environments {
 //            url = "jdbc:mysql://mediaHub/eventguide?useUnicode=yes&characterEncoding=UTF-8"
 //            username = "eventG"
 //            password = "eventG"
-			dbCreate = "update"
+			dbCreate = "create-drop"
 			url = "jdbc:h2:mem:testDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
         }
         hibernate {

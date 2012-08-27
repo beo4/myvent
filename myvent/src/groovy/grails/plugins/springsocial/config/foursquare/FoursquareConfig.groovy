@@ -45,7 +45,7 @@ class FoursquareConfig {
    * @see FoursquareConnectionFactory
    */
   @Bean
-  public ConnectionFactoryLocator connectionFactoryLocator() {
+  public ConnectionFactoryLocator foursquareConnectionFactoryLocator() {
 	  ConnectionFactoryRegistry registry = new ConnectionFactoryRegistry();
 	  registry.addConnectionFactory(foursquareConnectionFactory());
 	  return registry;
@@ -67,7 +67,7 @@ class FoursquareConfig {
   @Bean
   public UsersConnectionRepository usersConnectionRepository() {
 	  JdbcUsersConnectionRepository repository = new JdbcUsersConnectionRepository(dataSource,
-			  connectionFactoryLocator(), Encryptors.noOpText());
+			  foursquareConnectionFactoryLocator(), Encryptors.noOpText());
 	  repository.setConnectionSignUp(new SimpleConnectionSignUp());
 	  return repository;
   }
@@ -82,14 +82,14 @@ class FoursquareConfig {
 	  if (user) {
 		  return usersConnectionRepository().createConnectionRepository(user.id())
 	  } else {
-	  	return usersConnectionRepository().createConnectionRepository(0);
+	  	return usersConnectionRepository().createConnectionRepository();
 	  }
 	  	
   }
   
   @Bean
   public ConnectController connectController() {
-	  return new ConnectController(connectionFactoryLocator(),
+	  return new ConnectController(foursquareConnectionFactoryLocator(),
 		  connectionRepository());
   }
   
