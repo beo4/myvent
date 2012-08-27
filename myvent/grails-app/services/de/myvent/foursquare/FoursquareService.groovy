@@ -1,32 +1,30 @@
 package de.myvent.foursquare
 
-import grails.plugins.springsocial.config.foursquare.FoursquareConfig;
-
-import org.springframework.social.connect.ConnectionFactoryLocator
-import org.springframework.social.connect.support.ConnectionFactoryRegistry
+import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.foursquare.api.Foursquare
 import org.springframework.social.foursquare.api.VenueSearchParams
-import org.springframework.social.foursquare.api.impl.FoursquareTemplate
-import org.springframework.social.foursquare.connect.FoursquareConnectionFactory
-import org.springframework.social.foursquare.connect.FoursquareServiceProvider;
+import org.springframework.social.foursquare.connect.FoursquareServiceProvider
+import org.springframework.util.Assert;
 
 
 class FoursquareService {
-	Foursquare foursquare
-	FoursquareConfig foursquareConfig
-	
-	def Foursquare getFoursquare() {
-		if (!foursquare) {
-			foursquare = foursquareConfig.foursquare()
-		}
-		
-		return foursquare
-	}
+	def grailsApplication
+	def connectionFactoryLocator
+	def connectionRepository
 
+	def getFoursquareServiceProvider(){
+		String consumerKey = grailsApplication.config.grails.plugins.springsocial.foursquare.clientId ?: ""
+		String consumerSecret = grailsApplication.config.grails.plugins.springsocial.foursquare.clientSecret ?: ""
+		Assert.hasText(consumerKey, "The Foursquare clientId is necessary, please add to the Config.groovy as follows: grails.plugins.springsocial.foursquare.clientId='yourConsumerKey'")
+		Assert.hasText(consumerSecret, "The Foursquare clientSecret is necessary, please add to the Config.groovy as follows: grails.plugins.springsocial.foursquare.clientSecret='yourConsumerSecret'")
+		return new FoursquareServiceProvider(consumerKey,consumerSecret)
+	}
+	
 	def getVenuesAt(lat,lng){
-		//getFoursquareServiceProvider().getApi().venueOperations().search(new VenueSearchParams().location(lat,lng))
+		getFoursquareServiceProvider().getApi().venueOperations().search(new VenueSearchParams().location(lat,lng))
+		//connectionRepository().findPrimaryConnection(Foursquare)
 		
-		return getFoursquare().venueOperations().search(new VenueSearchParams().location(lat,lng))
+		return foursquare().venueOperations().search(new VenueSearchParams().location(lat,lng))
 	}
 
 //	def getVenuesNear(near){

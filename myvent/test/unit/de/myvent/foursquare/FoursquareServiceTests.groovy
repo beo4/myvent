@@ -15,9 +15,10 @@ class FoursquareServiceTests {
 	
     void testGetVenuesAt(){
 		defineBeans {
-			foursquareConfig(FoursquareConfig)
+			foursquare(FoursquareConfig)
 		}
 		def service = new FoursquareService()
+		service.grailsApplication = grailsApplication
 		//def venues = foursquareService.getVenuesAt(44.3,37.2)
 		assert service.getVenuesAt(44.3,37.2)
 		

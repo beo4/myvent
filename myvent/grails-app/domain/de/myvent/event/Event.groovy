@@ -1,6 +1,5 @@
 package de.myvent.event
 
-import twitter.bootstrap.scaffolding.Address;
 import de.myvent.util.Image;
 
 class Event {

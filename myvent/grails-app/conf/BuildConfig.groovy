@@ -36,7 +36,7 @@ grails.project.dependency.resolution = {
 
         runtime 'mysql:mysql-connector-java:5.1.16'
 		//compile 'fi.foyt:foursquare-api:1.0.2'
-		compile 'org.springframework.social:spring-social-foursquare:1.0.9.RELEASE'
+		//compile 'org.springframework.social:spring-social-foursquare:1.0.9.RELEASE'
     }
 
     plugins {
@@ -54,3 +54,4 @@ grails.project.dependency.resolution = {
         build ":tomcat:$grailsVersion"
     }
 }
+grails.plugin.location.'grails-spring-social-foursquare' = "C:/Develop/workspace/sts-3.0.0/grails-spring-social-foursquare"
