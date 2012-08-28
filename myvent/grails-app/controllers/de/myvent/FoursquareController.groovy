@@ -9,6 +9,7 @@ import grails.converters.JSON
 
 class FoursquareController {
 	def foursquareService
+	
 
 	def index() {
 		params.lat
@@ -16,7 +17,9 @@ class FoursquareController {
 	}
 	
 	def locationsNear() {
-		def venues = foursquareService.getVenuesAt(params.lat,params.lgt)
+		def position = session['position']
+		
+		def venues = foursquareService.getVenuesAt(position.coords.latitude,position.coords.longitude)
 		render venues as JSON
 	}
 	
