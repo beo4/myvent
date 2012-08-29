@@ -6,10 +6,23 @@
 	</head>
 
 	<body>
+			<g:javascript>
+			var url='http://api.tiles.mapbox.com/v3/${grailsApplication.config.grails.plugins.mapbox.mapId}.jsonp';
+			
+			wax.tilejson(url, function(tilejson) {
+			    var map = new MM.Map('map', new wax.mm.connector(tilejson));
+			
+			    wax.mm.interaction()
+			      .map(map)
+			      .tilejson(tilejson)
+			      .on(wax.tooltip().animate(true).parent(map.parent).events());
+			
+			    map.setCenterZoom({ lat:0, lon: 0 }, 15);
+			  }
+			);
+			</g:javascript>
 		<div class="row-fluid">
-		
-		<section id="searchLocation">
-		</section>
+
 			<aside id="application-status" class="span3">
 				<div class="well sidebar-nav">
 					
@@ -37,17 +50,12 @@
 
 				<div class="hero-unit">
 					<h1>YourVent, MyVent</h1>
-
-					
 				</div>
 					
 				<div class="row-fluid">
-
+					
 				</div>
-
 			</section>
 		</div>
-		
-		<a href="http://github.com/robfletcher/twitter-bootstrap-scaffolding"><img id="github-ribbon" src="https://a248.e.akamai.net/assets.github.com/img/e6bef7a091f5f3138b8cd40bc3e114258dd68ddf/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub"></a>
 	</body>
 </html>

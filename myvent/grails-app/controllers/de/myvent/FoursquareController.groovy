@@ -12,8 +12,7 @@ class FoursquareController {
 	
 
 	def index() {
-		params.lat
-		params.lgt
+		redirect action: 'locationsNear', params: params
 	}
 	
 	def locationsNear() {

@@ -19,6 +19,7 @@
 	<natures>
 		<nature>org.grails.ide.eclipse.core.nature</nature>
 		<nature>org.eclipse.jdt.groovy.core.groovyNature</nature>
+		<nature>org.grails.ide.eclipse.core.nature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
 	</natures>

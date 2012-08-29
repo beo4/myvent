@@ -14,9 +14,7 @@ import org.junit.*
 class FoursquareServiceTests {
 	
     void testGetVenuesAt(){
-		defineBeans {
-			foursquare(FoursquareConfig)
-		}
+
 		def service = new FoursquareService()
 		service.grailsApplication = grailsApplication
 		//def venues = foursquareService.getVenuesAt(44.3,37.2)

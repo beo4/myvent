@@ -124,3 +124,7 @@ grails.plugins.springsocial.facebook.clientSecret='2e682bb95251f950c6694f01bd066
 //Configuration for twitter
 grails.plugins.springsocial.twitter.consumerKey = "0trM4GpWXiE92psB9vQPVg"
 grails.plugins.springsocial.twitter.consumerSecret = "mGBtxxsTmzxzItRhTM2WpiN8GwmWUfD2YZxjNQDDA0"
+
+
+grails.plugins.mapbox.mapId="admiral49.map-ytobe2ij"
+

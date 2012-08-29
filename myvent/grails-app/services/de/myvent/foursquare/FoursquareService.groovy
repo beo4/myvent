@@ -9,8 +9,6 @@ import org.springframework.util.Assert;
 
 class FoursquareService {
 	def grailsApplication
-	def connectionFactoryLocator
-	def connectionRepository
 
 	def getFoursquareServiceProvider(){
 		String consumerKey = grailsApplication.config.grails.plugins.springsocial.foursquare.clientId ?: ""
