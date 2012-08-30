@@ -38,7 +38,10 @@
 				</div>
 					
 				<div class="row-fluid">
-					
+					<div class="well">
+						<g:remoteLink action="locationsNear" update="results" >lade</g:remoteLink>
+					</div>
+					<div id="results"></div>
 				</div>
 			</section>
 		</div>

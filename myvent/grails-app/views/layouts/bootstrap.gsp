@@ -16,7 +16,7 @@
 			<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
 <r:require modules="scaffolding" />
-<r:require modules="wax" />
+<r:require modules="mapbox" />
 
 <!-- Le fav and touch icons -->
 <link rel="shortcut icon"
@@ -28,13 +28,12 @@
 	href="${resource(dir: 'images', file: 'apple-touch-icon-72x72.png')}">
 <link rel="apple-touch-icon" sizes="114x114"
 	href="${resource(dir: 'images', file: 'apple-touch-icon-114x114.png')}">
-	<geolocation:resources />
+<geolocation:resources />
 <g:layoutHead />
 <r:layoutResources />
 </head>
 
 <body>
-	<geolocation:locateMe/>
 	<nav class="navbar navbar-fixed-top">
 		<div class="navbar-inner">
 			<div class="container-fluid">
@@ -63,21 +62,57 @@
 			</div>
 		</div>
 	</nav>
-
-	<div class="map-container">
-		<div id="map">
-
-			<div class="container-fluid">
-				<g:layoutBody />
-
+	<div class="container-fluid overlay">
+		<g:layoutBody />
 				<hr>
 
 				<footer>
 					<p>&copy; myVent 2012</p>
 				</footer>
-			</div>
-		</div>
 	</div>
+	<div class="map-container">
+		<div id="map">
+			
+		</div>
+		
+	</div>
+	<g:javascript>
+			jQuery('#map').css({'height':((jQuery(window).height()))+'px'});
+		
+		    jQuery(window).resize(function(){
+		    	jQuery('#map').css({'height':((jQuery(window).height()))+'px'});
+		    });
+	
+			// Create map
+		    var m = mapbox.map('map');
+		    m.addLayer(mapbox.layer().id('${grailsApplication.config.grails.plugins.mapbox.mapId}'));
+			
+			  // Create an empty markers layer
+			  var markerLayer = mapbox.markers.layer();
+			
+			  // Add interaction to this marker layer. This
+			  // binds tooltips to each marker that has title
+			  // and description defined.
+			  mapbox.markers.interaction(markerLayer);
+			  m.addLayer(markerLayer);
+			
+			</g:javascript>
+			<geolocation:locateMe2/>
+			<g:javascript>
+				function geolocFail() {
+					if (m)
+						{m.zoom(5).center({ lat:47.857127, lon: 12.175302 });
+							
+						}
+				}
+				function geolocSuc(position) {
+					if (m)
+						{m.zoom(5).center({ lat:position.coords.latitude, lon: position.coords.longitude});}
+				}
+				
+				<g:remoteFunction action="locationsNear" update="[success:'paintMarkers()',failure:'alert()']"></g:remoteFunction>
+				function paintMarkers() {alert('paint')}
+			</g:javascript>
 	<r:layoutResources />
 </body>
 </html>

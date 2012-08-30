@@ -4,7 +4,7 @@ body {
 
 @media (min-width:980px) {
 	body { 
-		padding-top: 160px; 
+		padding-top: 180px; 
 	}
 }
 
@@ -20,6 +20,13 @@ body {
 	right: 0;
 	left: 0;
 }
+
+.overlay {
+	position: absolute;
+	z-index: 1;
+}
+
+.row-fluide
 
 .btn {
 	vertical-align: middle; /* ensure buttons line up even when they are different tag types [a, button] */

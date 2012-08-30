@@ -1,10 +1,5 @@
 package de.myvent
 
-import javax.xml.ws.Response
-import org.codehaus.groovy.grails.web.json.JSONObject
-import org.springframework.social.foursquare.api.Foursquare
-
-import de.myvent.foursquare.FoursquareService
 import grails.converters.JSON
 
 class FoursquareController {
@@ -12,7 +7,7 @@ class FoursquareController {
 	
 
 	def index() {
-		redirect action: 'locationsNear', params: params
+		
 	}
 	
 	def locationsNear() {
