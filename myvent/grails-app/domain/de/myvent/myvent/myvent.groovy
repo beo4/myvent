@@ -1,8 +1,8 @@
-package de.myvent.event
+package de.myvent.myvent
 
 import de.myvent.util.Image;
 
-class Event {
+class myvent {
 
     static constraints = {
     }

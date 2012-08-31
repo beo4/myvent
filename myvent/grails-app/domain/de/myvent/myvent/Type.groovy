@@ -1,4 +1,4 @@
-package de.myvent.event
+package de.myvent.myvent
 
 import de.myvent.util.Image;
 

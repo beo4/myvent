@@ -110,8 +110,17 @@
 						{m.zoom(5).center({ lat:position.coords.latitude, lon: position.coords.longitude});}
 				}
 				
-				<g:remoteFunction action="locationsNear" update="[success:'paintMarkers()',failure:'alert()']"></g:remoteFunction>
-				function paintMarkers() {alert('paint')}
+				function loadMyvents(){
+				  var url = "${createLink(controller:'myvent', action:'near')}"
+				  url += "?lat=" + airportMarkers[1].getLatLng().lat()
+				  url += "&lng=" + airportMarkers[1].getLatLng().lng()
+				  new Ajax.Request(url,{
+				    onSuccess: function(req) { showHotels(req) },
+				    onFailure: function(req) { displayError(req) }
+				  })
+				}
+				
+				
 			</g:javascript>
 	<r:layoutResources />
 </body>
