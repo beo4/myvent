@@ -4,6 +4,15 @@
 		var timer;
 		function populateList(data,textStatus) {
 			
+				m.removeLayer(markerLayer);
+				// Create an empty markers layer
+			  var markerLayer = mapbox.markers.layer();
+			
+			  // Add interaction to this marker layer. This
+			  // binds tooltips to each marker that has title
+			  // and description defined.
+			  mapbox.markers.interaction(markerLayer);
+			  m.addLayer(markerLayer);	
 			jQuery.each(data,addMarker);
 		}
 		function addMarker(indexInArray, valueOfElement) {
@@ -24,7 +33,9 @@
 	<label class="control-label" for="${property}">${label}</label>
 	<div class="controls">
 		<input type="text" name="searchLocation" value="" id="searchLocation"
-		onkeyup="clearTimeout(timer); timer = setTimeout(function ajax_call(){alert(jQuery('searchLocation').value); jQuery.ajax({type:'POST',data:'searchLocation='+jQuery('searchLocation').value, url:'/myvent/foursquare/locationsNear',success:function(data,textStatus){populateList(data, textStatus);},error:function(XMLHttpRequest,textStatus,errorThrown){}})},3000);" action="locationsNear" controller="foursquare">
+		onkeyup="clearTimeout(timer); timer = setTimeout(function ajax_call(){
+			jQuery.ajax({type:'POST',data:'searchLocation='+jQuery('#searchLocation').val(), url:'/myvent/foursquare/locationsNear',success:function(data,textStatus){populateList(data, textStatus);},error:function(XMLHttpRequest,textStatus,errorThrown){}})},3000);" 
+			action="locationsNear" controller="foursquare">
 		
 		<g:select name="venueId" from="" id="venueList"/>
 	
