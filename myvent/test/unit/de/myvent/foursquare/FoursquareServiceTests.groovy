@@ -25,4 +25,19 @@ class FoursquareServiceTests {
 		}
 		
     }
+	
+	void testGetVenuesNear(){
+		
+		def service = new FoursquareService()
+		service.grailsApplication = grailsApplication
+		//def venues = foursquareService.getVenuesAt(44.3,37.2)
+		def venues = service.getVenuesNear('Rosenheim')
+		assert venues
+		venues.each {
+			println it.location
+		}
+		
+	}
+	
+	
 }

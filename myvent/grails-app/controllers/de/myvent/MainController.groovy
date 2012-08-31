@@ -1,4 +1,4 @@
-package myvent
+package de.myvent
 
 class MainController {
 

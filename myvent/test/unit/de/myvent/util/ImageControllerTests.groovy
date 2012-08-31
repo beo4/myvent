@@ -1,10 +1,11 @@
-package de.element.eventguide.util
+package de.myvent.util
 
 
 
 import org.junit.*
 
 import de.myvent.util.Image;
+import de.myvent.util.ImageController;
 import grails.test.mixin.*
 
 @TestFor(ImageController)

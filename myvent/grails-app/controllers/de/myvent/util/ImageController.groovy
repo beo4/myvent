@@ -1,4 +1,4 @@
-package de.element.eventguide.util
+package de.myvent.util
 
 import java.io.InputStream;
 

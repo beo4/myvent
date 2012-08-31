@@ -2,9 +2,11 @@ package de.myvent.myvent
 
 import de.myvent.util.Image;
 
-class myvent {
+class Myvent {
 
     static constraints = {
+		description type: 'text'
+		name  type: 'text'
     }
 
 	String name

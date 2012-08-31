@@ -1,5 +1,8 @@
 package de.myvent.foursquare
 
+import java.net.Authenticator;
+import java.net.PasswordAuthentication;
+
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.foursquare.api.Foursquare
 import org.springframework.social.foursquare.api.VenueSearchParams
@@ -19,14 +22,12 @@ class FoursquareService {
 	}
 	
 	def getVenuesAt(lat,lng){
+
 		return getFoursquareServiceProvider().getApi().venueOperations().search(new VenueSearchParams().location(lat,lng))
-		//connectionRepository().findPrimaryConnection(Foursquare)
-		
-		//return foursquare().venueOperations().search(new VenueSearchParams().location(lat,lng))
 	}
 
 	def getVenuesNear(near){
 
-
+		return getFoursquareServiceProvider().getApi().venueOperations().search(new VenueSearchParams().near(near))
 	}
 }
