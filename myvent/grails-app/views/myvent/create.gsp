@@ -50,11 +50,6 @@
 				<fieldset>
 					<g:form class="form-horizontal" action="create" >
 						<fieldset>
-							
-							<g:remoteField name="searchLocation" action="locationsNear" controller="foursquare" paramName="searchLocation"/>
-							
-						</fieldset>
-						<fieldset>
 							<f:all bean="myventInstance"/>
 							<div class="form-actions">
 								<button type="submit" class="btn btn-primary">

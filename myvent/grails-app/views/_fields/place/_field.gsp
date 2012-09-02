@@ -4,16 +4,10 @@
 		var timer;
 		function populateList(data,textStatus) {
 			
-				m.removeLayer(markerLayer);
-				// Create an empty markers layer
-			  var markerLayer = mapbox.markers.layer();
-			
-			  // Add interaction to this marker layer. This
-			  // binds tooltips to each marker that has title
-			  // and description defined.
-			  mapbox.markers.interaction(markerLayer);
-			  m.addLayer(markerLayer);	
+			jQuery.each(mapbox.markers.markers(),removeMarker);
+						
 			jQuery.each(data,addMarker);
+			m.zoom(11).center(markerLayer.center);
 		}
 		function addMarker(indexInArray, valueOfElement) {
 			markerLayer.add_feature({
@@ -28,6 +22,9 @@
                       title: valueOfElement.name,
                   }
               });
+		}
+		function removeMarker(marker) {
+			marker.remove();
 		}
 	</g:javascript>
 	<label class="control-label" for="${property}">${label}</label>

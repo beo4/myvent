@@ -105,9 +105,9 @@
 							
 						}
 				}
-				function geolocSuc(position) {
+				function geolocSuccess(position) {
 					if (m)
-						{m.zoom(5).center({ lat:position.coords.latitude, lon: position.coords.longitude});}
+						{m.zoom(13).center({ lat:position.coords.latitude, lon: position.coords.longitude});}
 				}
 				
 				

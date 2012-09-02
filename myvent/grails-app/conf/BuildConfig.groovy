@@ -52,7 +52,6 @@ grails.project.dependency.resolution = {
 		runtime ':spring-security-ui:0.2'
 		runtime ':spring-social-core:0.1.31'
 		runtime ':spring-social-twitter:0.1.31'
-		runtime ':grails-spring-social-foursquare:0.1'
 		
         // Uncomment these (or add new ones) to enable additional resources capabilities
         //runtime ":zipped-resources:1.0"
@@ -62,4 +61,5 @@ grails.project.dependency.resolution = {
         build ":tomcat:$grailsVersion"
     }
 }
-grails.plugin.location.'grails-spring-social-foursquare' = "../../grails-spring-social-foursquare-git/grails-spring-social-foursquare"
+//grails.plugin.location.'grails-spring-social-foursquare' = "../../grails-spring-social-foursquare-git/grails-spring-social-foursquare"
+grails.plugin.location.'grails-spring-social-foursquare' = "C:/Develop/workspace/sts-3.0.0/grails-spring-social-foursquare/grails-spring-social-foursquare"

@@ -5,6 +5,7 @@ import de.myvent.util.Image;
 class Myvent {
 
     static constraints = {
+		place()
 		description type: 'text'
 		name  type: 'text'
     }
