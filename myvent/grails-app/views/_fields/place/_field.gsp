@@ -4,10 +4,19 @@
 		var timer;
 		function populateList(data,textStatus) {
 			
-			jQuery.each(mapbox.markers.markers(),removeMarker);
-						
+			//jQuery.each(markerLayer.markers(),removeMarker);
+			markerLayer.remove()
+			var newMarkerLayer = mapbox.markers.layer();
+			newMarkerLayer.named(jQuery('#searchLocation').val());
+			markerLayer = newMarkerLayer;
+			mapbox.markers.interaction(newMarkerLayer);
+  			m.addLayer(newMarkerLayer);
+  			
+  			
+  			
 			jQuery.each(data,addMarker);
-			m.zoom(11).center(markerLayer.center);
+			//m.zoom(10).center(markerLayer.center);
+			//m.ease.optimal()
 		}
 		function addMarker(indexInArray, valueOfElement) {
 			markerLayer.add_feature({
@@ -31,7 +40,7 @@
 	<div class="controls">
 		<input type="text" name="searchLocation" value="" id="searchLocation"
 		onkeyup="clearTimeout(timer); timer = setTimeout(function ajax_call(){
-			jQuery.ajax({type:'POST',data:'searchLocation='+jQuery('#searchLocation').val(), url:'/myvent/foursquare/locationsNear',success:function(data,textStatus){populateList(data, textStatus);},error:function(XMLHttpRequest,textStatus,errorThrown){}})},3000);" 
+			jQuery.ajax({type:'POST',data:'searchLocation='+jQuery('#searchLocation').val(), url:'/myvent/foursquare/locationsNear',success:function(data,textStatus){populateList(data, textStatus);},error:function(XMLHttpRequest,textStatus,errorThrown){}})},1000);" 
 			action="locationsNear" controller="foursquare">
 		
 		<g:select name="venueId" from="" id="venueList"/>

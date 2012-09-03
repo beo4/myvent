@@ -27,7 +27,7 @@ class FoursquareService {
 	}
 
 	def getVenuesNear(near){
-
+		
 		return getFoursquareServiceProvider().getApi().venueOperations().search(new VenueSearchParams().near(near))
 	}
 }
