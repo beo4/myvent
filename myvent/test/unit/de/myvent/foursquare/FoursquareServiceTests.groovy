@@ -1,7 +1,6 @@
 package de.myvent.foursquare
 
 
-import grails.plugins.springsocial.config.foursquare.FoursquareConfig;
 import grails.test.mixin.*
 import org.junit.*
 
@@ -20,8 +19,10 @@ class FoursquareServiceTests {
 		//def venues = foursquareService.getVenuesAt(44.3,37.2)
 		def venues = service.getVenuesAt(44.3,37.2)
 		assert venues
-		venues.each {
-			println it.location
+		assertNull(venues.geoCode)
+		
+		venues.venues.each {
+			println it.name
 		}
 		
     }
@@ -33,7 +34,9 @@ class FoursquareServiceTests {
 		//def venues = foursquareService.getVenuesAt(44.3,37.2)
 		def venues = service.getVenuesNear('Rosenheim')
 		assert venues
-		venues.each {
+		assert venues.geoCode
+		
+		venues.venues.each {
 			println it.location
 		}
 		

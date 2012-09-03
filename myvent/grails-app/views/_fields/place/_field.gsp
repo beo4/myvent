@@ -1,4 +1,6 @@
 <%@ page defaultCodec="html" %>
+<%@ page import="org.springframework.social.foursquare.api.GeoCode" %>
+<%@ page import="org.springframework.social.foursquare.api.VenueSearchResponse" %>
 <div class="control-group ${invalid ? 'error' : ''}">
 	<g:javascript>
 		var timer;
@@ -12,14 +14,17 @@
 			mapbox.markers.interaction(newMarkerLayer);
   			m.addLayer(newMarkerLayer);
   			
+  			//remove options in select
+  			jQuery('#venueList').find('option').remove()
   			
-  			
-			jQuery.each(data,addMarker);
-			//m.zoom(10).center(markerLayer.center);
+			jQuery.each(data.venues,computeResults);
+			m.ease.location(data.geoCode.feature.geometry.center).zoom(14).optimal()
 			//m.ease.optimal()
 		}
-		function addMarker(indexInArray, valueOfElement) {
-			markerLayer.add_feature({
+		function computeResults(indexInArray, valueOfElement) {
+			//add a marker for every result
+			var feature = markerLayer.add_feature({
+				  'valueOfElement': valueOfElement,
                   geometry: {
                       coordinates: [
                           valueOfElement.location.longitude,
@@ -29,11 +34,26 @@
                       'marker-color': '#000',
                       'marker-symbol': 'star-stroked',
                       title: valueOfElement.name,
+                      'marker-size': 'medium',
                   }
               });
+              markerLayer.key(function(f) { return f.valueOfElement.id; });
+			//markerLayer.add_feature(feature);
+              
+              //add options to select
+			  jQuery('#venueList').append(
+			  	 new Option(valueOfElement.name,valueOfElement.id) ).hover(
+			  	 	function(){markerHoverIn(feature)}, 
+			  	 	function(){markerHoverOut(feature)});
 		}
 		function removeMarker(marker) {
 			marker.remove();
+		}
+		function markerHoverIn(feature){
+			feature
+		}
+		function markerHoverOut(feature){
+			feature
 		}
 	</g:javascript>
 	<label class="control-label" for="${property}">${label}</label>
@@ -43,7 +63,7 @@
 			jQuery.ajax({type:'POST',data:'searchLocation='+jQuery('#searchLocation').val(), url:'/myvent/foursquare/locationsNear',success:function(data,textStatus){populateList(data, textStatus);},error:function(XMLHttpRequest,textStatus,errorThrown){}})},1000);" 
 			action="locationsNear" controller="foursquare">
 		
-		<g:select name="venueId" from="" id="venueList"/>
+		<g:select name="venueId" from="" id="venueList" />
 	
 		<g:if test="${invalid}"><span class="help-inline">${errors.join('<br>')}</span></g:if>
 	</div>
