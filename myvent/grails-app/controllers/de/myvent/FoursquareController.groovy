@@ -12,15 +12,20 @@ class FoursquareController {
 	
 	def locationsNear() { 
 		def venues
-		if (!params.searchLocation) {
+		if (((params.lat&&params.lon)||session['position'])&&!params.searchLocation) {
 			def position = session['position']
-		
-			venues = foursquareService.getVenuesAt(position.coords.latitude,position.coords.longitude)
+			if (params.lat&&params.lon) {
+				venues = foursquareService.getVenuesAt(Double.valueOf(params.lat),Double.valueOf(params.lon),params.searchQuery)
+			} else if (position) {
+				venues = foursquareService.getVenuesAt(position.coords.latitude,position.coords.longitude,params.searchQuery)
+			}
+			
+			
 		} else {
-			venues = foursquareService.getVenuesNear(params.searchLocation)
+			venues = foursquareService.getVenuesNear(params.searchLocation,params.searchQuery)
 		}
 		
-		
+		session.venueSearchResult = venues
 		render venues as JSON
 	}
 	
