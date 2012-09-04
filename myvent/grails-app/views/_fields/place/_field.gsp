@@ -5,30 +5,49 @@
 	<g:javascript>
 		var timer;
 		var selected;
+		var markerLayerHover;
+		var markerLayerSelected;
 			
 		jQuery().ready(function(){
 			//create myvent-create events on click
 			markerLayer.factory(markerFactory);
 			markerLayer.key(function(f) { return f.venue.id; });
+			markerLayer.named('original');
+			markerLayerHover = mapbox.markers.layer();
+			markerLayerHover.key(function(f) { return f.venue.id; });
+			markerLayerHover.named('hover');
+			markerLayerSelected = mapbox.markers.layer();
+			markerLayerSelected.key(function(f) { return f.venue.id; });
+			markerLayerSelected.named('selected');
+			
+			markerLayerHover.filter(
+			function(f) {
+			 return false;
+			 });
+			 
+			markerLayerSelected.filter(
+			function(f) {
+			 return false;
+			 });
+			 
+			 m.addLayer(markerLayerSelected);
+			 m.addLayer(markerLayerHover);
+			 
 			
 			jQuery('#venueList option').hover(
 				function(eventObject) {
 					var hoverObject = jQuery(this);
-				  	markerHover(hoverObject.val());
+				  	markerHover(hoverObject.val(),markerLayerHover);
 				},
 				function(eventObject) {
 					var hoverObject = jQuery(this);
-				  	markerHover(hoverObject.val());
+				  	markerHover(hoverObject.val(),markerLayerHover);
 				})
 				
 				jQuery('#venueList').change(
 				function(eventObject) {
-					//replace Image of old select
-					if (selected) {
-						markerHover(markerHover(selected.val()));
-					}
 					selected = jQuery(this).find(':selected');
-				  	markerHover(selected.val());
+				  	markerHover(selected.val(),markerLayerSelected);
 				}
 			);
 		});
@@ -38,6 +57,8 @@
 			
 			//remove old features
 			markerLayer.features([]);
+			markerLayerHover.features([]);
+			markerLayerSelected.features([]);
 			markerLayer.named(jQuery('#searchLocation').val());
 			
   			//remove options in select
@@ -45,7 +66,6 @@
   			
 			jQuery.each(data.venues,computeResults);
 			m.setExtent(markerLayer.extent());
-
 		}
 		function computeResults(indexInArray, valueOfElement) {
 			//add a marker for every result
@@ -65,30 +85,41 @@
                       'marker-color': '#000',
                       'marker-symbol': 'star-stroked',
                       title: valueOfElement.name,
-                      'marker-size': 'medium',
+                      'marker-size': 'small',
                   }
               };
               
-              var hoverFeature = jQuery.extend(true, {}, feature);
+              var selectedFeature = jQuery.extend(true, {}, feature);
+		      selectedFeature.properties['marker-size']='medium';
+		      selectedFeature.properties['marker-color']='7cfc00';
+		      selectedFeature.properties['hide']=true;
+		      
+		      var hoverFeature = jQuery.extend(true, {}, selectedFeature);
 		      hoverFeature.properties['marker-size']='large';
-		      hoverFeature.properties['marker-color']='#ff0000';
+		      hoverFeature.properties['marker-color']='ff8c00';
 		      hoverFeature.properties['hide']=true;
               
               markerLayer.add_feature(feature);
-              markerLayer.add_feature(hoverFeature);
+              markerLayerHover.add_feature(hoverFeature);
+              markerLayerSelected.add_feature(selectedFeature);
               
-              jQuery(option).data('orginal', feature);
+              jQuery(option).data('original', feature);
 		      jQuery(option).data('hover', hoverFeature);
+		      jQuery(option).data('selected', selectedFeature);
               
               
 		}
 		function removeMarker(marker) {
 			marker.remove();
 		}
-		function markerHover(idHover){
-			markerLayer.filter(
+		function markerHover(idHover,layer){
+			layer.filter(
 			function(f) {
-			 return !(f.properties['hide']^(idHover==f.venue.id))
+			 return (idHover==f.venue.id)
+			 });
+			 markerLayer.filter(
+			function(f) {
+			 return !(idHover==f.venue.id)
 			 });
 		} 
 		
@@ -113,7 +144,34 @@
 		        // Add function that centers marker on click
 		        MM.addEvent(elem, 'click', function(e) {
 		            jQuery('#venueList').val(featureObject.venue.id);
+		            markerHover(featureObject.venue.id,markerLayerSelected);
 		        });
+		        
+		        jQuery(elem).mouseenter(
+		        	function(){markerHover(featureObject.venue.id,markerLayerHover)}
+		        );
+		        
+		        return elem;
+		    }
+		function markerFactoryHover(featureObject) {
+		
+		        // Create a marker using the simplestyle factory
+		        var elem = mapbox.markers.simplestyle_factory(featureObject);
+		        
+		        // Add function that centers marker on click
+		        MM.addEvent(elem, 'click', function(e) {
+		            jQuery('#venueList').val(featureObject.venue.id);
+		            markerHover(featureObject.venue.id,markerLayerSelected);
+		        });
+		        
+		        jQuery(elem).mouseleave(
+		        	function(){
+		        	markerLayerHover.filter(function(f){return false});
+		        	if (selected) {
+		        		
+		        	}
+		        	}
+		        );
 		        
 		        return elem;
 		    }

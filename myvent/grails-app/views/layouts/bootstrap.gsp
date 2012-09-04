@@ -85,10 +85,11 @@
 	
 			// Create map
 		    var m = mapbox.map('map');
+		    var markerLayer;
 		    m.addLayer(mapbox.layer().id('${grailsApplication.config.grails.plugins.mapbox.mapId}'));
 			
 			  // Create an empty markers layer
-			  var markerLayer = mapbox.markers.layer();
+			  markerLayer = mapbox.markers.layer();
 			
 			  // Add interaction to this marker layer. This
 			  // binds tooltips to each marker that has title
