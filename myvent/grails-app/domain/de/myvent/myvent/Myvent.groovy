@@ -6,8 +6,13 @@ class Myvent {
 
     static constraints = {
 		place()
-		description type: 'text'
 		name  type: 'text'
+		
+		periods()
+		
+		description type: 'text', widget: 'textarea'
+		eventPicture nullable:true, blank: true
+		
     }
 
 	String name
@@ -15,7 +20,7 @@ class Myvent {
 	Type type
 	
 	Place place
-	Period period
+	List<Period> periods
 	
 	Image eventPicture
 	

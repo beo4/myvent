@@ -1,10 +1,14 @@
  package de.myvent.myvent
 
+import org.joda.time.LocalDateTime;
+
+
 class Period {
 
     static constraints = {
     }
 	
-	Date start
-	Date stop
+	LocalDateTime start
+	LocalDateTime stop
+	
 }

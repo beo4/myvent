@@ -50,7 +50,13 @@
 				<fieldset>
 					<g:form class="form-horizontal" action="create" >
 						<fieldset>
-							<f:all bean="myventInstance"/>
+							
+							<f:field property="place" bean="myventInstance"/>
+							
+							<f:field property="start" bean="periodInstance"/>
+							<f:field property="stop"  bean="periodInstance"/>
+							
+							
 							<div class="form-actions">
 								<button type="submit" class="btn btn-primary">
 									<i class="icon-ok icon-white"></i>

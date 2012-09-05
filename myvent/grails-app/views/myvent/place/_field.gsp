@@ -5,49 +5,33 @@
 	<g:javascript>
 		var timer;
 		var selected;
-		var markerLayerHover;
-		var markerLayerSelected;
 			
 		jQuery().ready(function(){
 			//create myvent-create events on click
-			markerLayer.factory(markerFactory);
-			markerLayer.key(function(f) { return f.venue.id; });
+			markerLayer.factory(markerFactoryOriginal);
 			markerLayer.named('original');
 			markerLayerHover = mapbox.markers.layer();
-			markerLayerHover.key(function(f) { return f.venue.id; });
-			markerLayerHover.named('hover');
-			markerLayerSelected = mapbox.markers.layer();
-			markerLayerSelected.key(function(f) { return f.venue.id; });
-			markerLayerSelected.named('selected');
 			
-			markerLayerHover.filter(
-			function(f) {
-			 return false;
-			 });
-			 
-			markerLayerSelected.filter(
-			function(f) {
-			 return false;
-			 });
-			 
-			 m.addLayer(markerLayerSelected);
-			 m.addLayer(markerLayerHover);
-			 
-			
+			//add hover and select actions to the place select box
 			jQuery('#venueList option').hover(
 				function(eventObject) {
-					var hoverObject = jQuery(this);
-				  	markerHover(hoverObject.val(),markerLayerHover);
+				  	//markerHover(hoverId,markerLayerHover);
 				},
 				function(eventObject) {
-					var hoverObject = jQuery(this);
-				  	markerHover(hoverObject.val(),markerLayerHover);
+				  	//markerHover(hoverObject.val(),markerLayerHover);
 				})
 				
-				jQuery('#venueList').change(
+			jQuery('#venueList').change(
 				function(eventObject) {
-					selected = jQuery(this).find(':selected');
-				  	markerHover(selected.val(),markerLayerSelected);
+				if (selected) {
+					originalFeature = jQuery(selected.option).data('original');
+					markerHover(selected,originalFeature.properties)
+					}
+					selected = jQuery(this).find(':selected').data('original')
+					var hoverFeature = jQuery.extend(true, {}, selected);
+						hoverFeature.properties['marker-size']='large';
+						hoverFeature.properties['marker-color']='ff8c00';
+					markerHover(jQuery(selected).data('elem'),hoverFeature.properties)
 				}
 			);
 		});
@@ -57,8 +41,6 @@
 			
 			//remove old features
 			markerLayer.features([]);
-			markerLayerHover.features([]);
-			markerLayerSelected.features([]);
 			markerLayer.named(jQuery('#searchLocation').val());
 			
   			//remove options in select
@@ -89,39 +71,15 @@
                   }
               };
               
-              var selectedFeature = jQuery.extend(true, {}, feature);
-		      selectedFeature.properties['marker-size']='medium';
-		      selectedFeature.properties['marker-color']='7cfc00';
-		      selectedFeature.properties['hide']=true;
-		      
-		      var hoverFeature = jQuery.extend(true, {}, selectedFeature);
-		      hoverFeature.properties['marker-size']='large';
-		      hoverFeature.properties['marker-color']='ff8c00';
-		      hoverFeature.properties['hide']=true;
-              
               markerLayer.add_feature(feature);
-              markerLayerHover.add_feature(hoverFeature);
-              markerLayerSelected.add_feature(selectedFeature);
               
               jQuery(option).data('original', feature);
-		      jQuery(option).data('hover', hoverFeature);
-		      jQuery(option).data('selected', selectedFeature);
               
               
 		}
-		function removeMarker(marker) {
-			marker.remove();
+		function markerHover(elem, properties){
+			jQuery(elem).attr('src',markerRenderer(properties));
 		}
-		function markerHover(idHover,layer){
-			layer.filter(
-			function(f) {
-			 return (idHover==f.venue.id)
-			 });
-			 markerLayer.filter(
-			function(f) {
-			 return !(idHover==f.venue.id)
-			 });
-		} 
 		
 		function getDataString(){
 		    var result
@@ -136,46 +94,55 @@
 			}
 			return result;
 		}
-		function markerFactory(featureObject) {
+		
+		function markerFactoryOriginal(featureObject) {
 		
 		        // Create a marker using the simplestyle factory
 		        var elem = mapbox.markers.simplestyle_factory(featureObject);
 		        
-		        // Add function that centers marker on click
-		        MM.addEvent(elem, 'click', function(e) {
-		            jQuery('#venueList').val(featureObject.venue.id);
-		            markerHover(featureObject.venue.id,markerLayerSelected);
-		        });
-		        
-		        jQuery(elem).mouseenter(
-		        	function(){markerHover(featureObject.venue.id,markerLayerHover)}
-		        );
-		        
-		        return elem;
-		    }
-		function markerFactoryHover(featureObject) {
-		
-		        // Create a marker using the simplestyle factory
-		        var elem = mapbox.markers.simplestyle_factory(featureObject);
+		        var selectedFeature = jQuery.extend(true, {}, featureObject);
+					selectedFeature.properties['marker-size']='medium';
+					selectedFeature.properties['marker-color']='f08c0f';
 		        
 		        // Add function that centers marker on click
 		        MM.addEvent(elem, 'click', function(e) {
 		            jQuery('#venueList').val(featureObject.venue.id);
-		            markerHover(featureObject.venue.id,markerLayerSelected);
+		            selected=featureObject;
+		            markerHover(elem,selectedFeature.properties);
 		        });
 		        
-		        jQuery(elem).mouseleave(
-		        	function(){
-		        	markerLayerHover.filter(function(f){return false});
-		        	if (selected) {
-		        		
+		        var hoverFeature = jQuery.extend(true, {}, featureObject);
+					hoverFeature.properties['marker-size']='large';
+					hoverFeature.properties['marker-color']='ff8c00';
+		        
+		        jQuery(elem).hover(
+		        function(){
+		        	markerHover(elem,hoverFeature.properties);
+		        	},
+		        function(){
+		        	markerHover(elem,featureObject.properties);
 		        	}
-		        	}
-		        );
+		        )
+		        
+		       jQuery(featureObject.option).data('element',elem);
 		        
 		        return elem;
 		    }
-		    
+
+		function markerRenderer(fp) {
+			var size = fp['marker-size'] || 'medium';
+		    var symbol = (fp['marker-symbol']) ? '-' + fp['marker-symbol'] : '';
+		    var color = fp['marker-color'] || '7e7e7e';
+		    color = color.replace('#', '');
+	
+			var src = (mapbox.markers.marker_baseurl || 'http://a.tiles.mapbox.com/v3/marker/') +
+		      'pin-' +
+		      // Internet Explorer does not support the `size[0]` syntax.
+		      size.charAt(0) + symbol + '+' + color +
+		      ((window.devicePixelRatio === 2) ? '@2x' : '') +
+		      '.png';
+		    return src;
+		} 
 	</g:javascript>
 	<label class="control-label" for="${property}">${message(code: 'myvent.'+property+'.city.label', default: label)}</label>
 	<div class="controls">

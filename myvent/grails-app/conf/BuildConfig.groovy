@@ -25,6 +25,7 @@ grails.project.dependency.resolution = {
         // uncomment these to enable remote dependency resolution from public Maven repositories
         //mavenCentral()
         mavenLocal()
+		mavenRepo "http://repo.grails.org/grails/libs-releases/"
         //mavenRepo "http://foursquare-api-java.googlecode.com/svn/repository"
         //mavenRepo "http://repository.codehaus.org"
         //mavenRepo "http://download.java.net/maven/2/"
@@ -35,6 +36,9 @@ grails.project.dependency.resolution = {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
 
         runtime 'mysql:mysql-connector-java:5.1.16'
+		compile("joda-time:joda-time-hibernate:1.3") {
+			excludes "joda-time", "hibernate"
+		}
 		//compile 'fi.foyt:foursquare-api:1.0.2'
 		//compile 'org.springframework.social:spring-social-foursquare:1.0.9.RELEASE'
     }
@@ -52,6 +56,7 @@ grails.project.dependency.resolution = {
 		runtime ':spring-security-ui:0.2'
 		runtime ':spring-social-core:0.1.31'
 		runtime ':spring-social-twitter:0.1.31'
+		runtime ':joda-time:1.4'
 		
         // Uncomment these (or add new ones) to enable additional resources capabilities
         //runtime ":zipped-resources:1.0"
