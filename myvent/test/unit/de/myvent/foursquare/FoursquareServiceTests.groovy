@@ -17,7 +17,7 @@ class FoursquareServiceTests {
 		def service = new FoursquareService()
 		service.grailsApplication = grailsApplication
 		//def venues = foursquareService.getVenuesAt(44.3,37.2)
-		def venues = service.getVenuesAt(44.3,37.2)
+		def venues = service.getVenuesAt(44.3,37.2,null)
 		assert venues
 		assertNull(venues.geoCode)
 		
@@ -32,12 +32,27 @@ class FoursquareServiceTests {
 		def service = new FoursquareService()
 		service.grailsApplication = grailsApplication
 		//def venues = foursquareService.getVenuesAt(44.3,37.2)
-		def venues = service.getVenuesNear('Rosenheim')
+		def venues = service.getVenuesNear('Rosenheim',null)
 		assert venues
 		assert venues.geoCode
 		
 		venues.venues.each {
-			println it.location
+			println it.name
+		}
+		
+	}
+	
+	void testSuggestVenues(){
+		
+		def service = new FoursquareService()
+		service.grailsApplication = grailsApplication
+		//def venues = foursquareService.getVenuesAt(44.3,37.2)
+		def venues = service.suggestVenues(44.3,37.2,'piz')
+		assert venues
+		assert venues.geoCode
+		
+		venues.venues.each {
+			println it.name
 		}
 		
 	}

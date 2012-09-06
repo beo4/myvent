@@ -10,6 +10,7 @@ class Myvent {
 		
 		periods()
 		
+		type()
 		description type: 'text', widget: 'textarea'
 		eventPicture nullable:true, blank: true
 		

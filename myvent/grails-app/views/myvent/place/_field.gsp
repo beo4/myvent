@@ -34,6 +34,7 @@
 					markerHover(jQuery(selected).data('elem'),hoverFeature.properties)
 				}
 			);
+			jQuery('#locateMe').tooltip();
 		});
 		
 		
@@ -143,23 +144,36 @@
 		      '.png';
 		    return src;
 		} 
+		
+		function searchPlace(query,success) {
+			
+		}
+		
 	</g:javascript>
-	<label class="control-label" for="${property}">${message(code: 'myvent.'+property+'.city.label', default: label)}</label>
+	<label class="control-label" for="${property}">${message(code: 'myvent.'+property+'.searchLocation.label', default: label)}</label>
 	<div class="controls">
-		<input type="text" name="searchLocation" value="" id="searchLocation"
-		onkeyup="clearTimeout(timer); timer = setTimeout(function ajax_call(){
-			jQuery.ajax({type:'POST',data:getDataString(), url:'/myvent/foursquare/locationsNear',success:function(data,textStatus){populateList(data, textStatus);},error:function(XMLHttpRequest,textStatus,errorThrown){}})},1000);" 
-			action="locationsNear" controller="foursquare">
+		<div class="input-append">
+			<input type="text" name="searchLocation" value="" id="searchLocation"
+			onkeyup="clearTimeout(timer); timer = setTimeout(function ajax_call(){
+				jQuery.ajax({type:'POST',data:getDataString(), url:'/myvent/foursquare/locationsNear',success:function(data,textStatus){populateList(data, textStatus);},error:function(XMLHttpRequest,textStatus,errorThrown){}})},1000);" 
+				action="locationsNear" controller="foursquare" placeholder="${message(code: 'myvent.search.location.placeholder', default: 'search location or use current map excerpt')}"
+				class="input-xxlarge">
+			<button id="locateMe" type="button" class="btn" data-title="${message(code: 'myvent.search.current.location.label', default: 'locate me')}"><i class="icon-screenshot"></i></button>
+			
+		</div>
 		<g:if test="${invalid}"><span class="help-inline">${errors.join('<br>')}</span></g:if>
 	</div>
-	<label class="control-label" for="${property}">${message(code: 'myvent.'+property+'.location.label', default: 'Location')}</label>
+	<label class="control-label" for="${property}">${message(code: 'myvent.'+property+'.place.label', default: 'Location')}</label>
 	<div class="controls">
 		<input type="text" name="searchQuery" value="" id="searchQuery"
 		onkeyup="clearTimeout(timer); timer = setTimeout(function ajax_call(){
 			jQuery.ajax({type:'POST',data:getDataString(), url:'/myvent/foursquare/locationsNear',success:function(data,textStatus){populateList(data, textStatus);},error:function(XMLHttpRequest,textStatus,errorThrown){}})},1000);" 
-			action="locationsNear" controller="foursquare">
+			action="locationsNear" controller="foursquare" data-provide="typeahead">
 		
 		<g:select name="venueId" from="" id="venueList" />
+	
+		
+		<input type="text" data-provide="typeahead" data-source="searchPlace">
 	
 		<g:if test="${invalid}"><span class="help-inline">${errors.join('<br>')}</span></g:if>
 	</div>

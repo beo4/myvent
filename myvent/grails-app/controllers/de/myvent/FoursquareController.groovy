@@ -29,5 +29,9 @@ class FoursquareController {
 		render venues as JSON
 	}
 	
+	def suggestLocation() {
+			def venues = foursquareService
+	}
+	
 	
 }
