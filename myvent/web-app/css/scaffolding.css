@@ -4,7 +4,7 @@ body {
 
 @media (min-width:980px) {
 	body { 
-		padding-top: 180px; 
+		padding-top: 60px; 
 	}
 }
 
@@ -13,7 +13,7 @@ body {
 	top: 0;
 	right: 0;
 	left: 0;
-	z-index: 0;
+	z-index: -1;
 }
 
 #map {
@@ -22,7 +22,6 @@ body {
 }
 
 .overlay {
-	position: absolute;
 	z-index: 1;
 }
 

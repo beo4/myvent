@@ -36,8 +36,10 @@ environments {
     }
     production {
         dataSource {
-            dbCreate = "update"
-            url = "jdbc:h2:prodDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
+            dbCreate = "update"  
+			url = "jdbc:mysql://localhost/myvent"  
+			driverClassName = "com.mysql.jdbc.Driver"  
+			username = "myventuser"  
             pooled = true
             properties {
                maxActive = -1
