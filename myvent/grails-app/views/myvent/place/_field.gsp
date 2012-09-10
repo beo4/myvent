@@ -140,11 +140,11 @@
 					selectedFeature.properties['marker-size']='medium';
 					selectedFeature.properties['marker-color']='f08c0f';
 		        
-		        // Add function that centers marker on click
+		        // Add function that highlights list entry
 		        MM.addEvent(elem, 'click', function(e) {
-		            jQuery('#venueList').val(featureObject.venue.id);
+		        	jQuery('li.highlighted').toggleClass('highlighted',false);
+		            jQuery('li#'+featureObject.venue.id).toggleClass('highlighted',true);
 		            selected=featureObject;
-		            markerHover(elem,selectedFeature.properties);
 		        });
 		        
 		        var hoverFeature = jQuery.extend(true, {}, featureObject);

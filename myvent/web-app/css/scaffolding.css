@@ -38,6 +38,10 @@ li.result {
 	position: relative;
 }
 
+li.highlighted {
+	background-color: #EEE;
+}
+
 .row-fluide
 
 .btn {
