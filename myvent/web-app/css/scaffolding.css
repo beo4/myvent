@@ -29,6 +29,15 @@ body {
 	overflow: auto;
 }
 
+
+li.result {
+	border-bottom: 1px solid #CCC;
+	list-style-type: none;
+	overflow: hidden;
+	padding: 10px;
+	position: relative;
+}
+
 .row-fluide
 
 .btn {

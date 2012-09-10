@@ -81,31 +81,23 @@
               
               var r = new Array(), j = -1;
               
-              r[++j] = '<thead>'+
-						'<tr>'+
-							'<g:sortableColumn property="name" title="${message(code: 'myvent.name.label', default: 'Name')}" />'+
-						
-							'<th class="header"><g:message code="myvent.place.categorie" default="Categories" /></th>'+
-						
-							'<th class="header"><g:message code="myvent.place.address" default="Address" /></th>'+
-						'</tr>'+
-					'</thead> <tbody>';
+              r[++j] = '<ul class="resultList">';
               
 			 for (var key=0, size=data.venues.length; key < size; key++){
-			     r[++j] ='<tr><td>';
+			     r[++j] ='<li id='+data.venues[key].id+' class="result"><div>';
 			     r[++j] = data.venues[key].name;
-			     r[++j] = '</td><td><ul>';
+			     r[++j] = '</div><ul>';
 			     jQuery.each(data.venues[key].categories, function(index,value){
 			     r[++j] = '<li>'+value.name+'</li>';
 			     })
-			     r[++j] = '</ul></td><td>';
+			     r[++j] = '</ul><div>';
 			     r[++j] = getAddressFromLocation(data.venues[key].location);
-			     r[++j] = '</td></tr>';
+			     r[++j] = '</div></li>';
 			 }
-			 r[++j] = '</tbody>'
-			 var table = jQuery('<table>').addClass('table table-striped').attr("id","venueList").html(r.join('')); 
+			 r[++j] = '</ul>'
+			 var table = jQuery(r.join('')).attr("id","venueList"); 
 			 
-			 jQuery('#flexContent').html(table).;
+			 jQuery('#flexContent').html(table);
               
 		}
 		function markerHover(elem, properties){
