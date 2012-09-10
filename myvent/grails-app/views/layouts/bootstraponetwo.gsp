@@ -65,12 +65,10 @@
 		</div>
 	</nav>
 	<div class="container-fluid">
-		<div class="row-fluid" id="static-content">
-			<g:layoutBody />
-		</div>
 		<div class="row-fluid">
-			<div class="span4 contentWrapper" id="flexContent">
-
+			<div class="span4 contentWrapper">
+				<g:layoutBody />
+				
 			</div>
 			<div class="span8">
 				<div id="map" class="contentWrapper"></div>
@@ -87,7 +85,7 @@
 			jQuery('.contentWrapper').css({'height':getContentHeight()+'px'});
 		
 		    jQuery(window).resize(function(){
-		    	jQuery('.contentWrapper').css({'height':getContentHeight()+'px'});
+		    	jQuery('.contentWrapper').css({'height':((jQuery(window).height()-jQuery('.navbar').height()))+'px'});
 		    });
 	
 			// Create map
@@ -118,7 +116,7 @@
 						{m.zoom(13).center({ lat:position.coords.latitude, lon: position.coords.longitude});}
 				}
 				function getContentHeight() {
-					return ((jQuery(window).height())-(jQuery('.navbar').height()+jQuery('#static-content').height()));
+					return ((jQuery(window).height())-jQuery('.navbar').height());
 				}
 				
 				

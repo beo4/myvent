@@ -2,7 +2,6 @@ dataSource {
     pooled = true
     driverClassName = "org.h2.Driver"
     username = "sa"
-    password = ""
 }
 hibernate {
     cache.use_second_level_cache = true
@@ -39,8 +38,9 @@ environments {
             dbCreate = "update"  
 			url = "jdbc:mysql://localhost/myvent"  
 			driverClassName = "com.mysql.jdbc.Driver"  
-			username = "myventuser"  
-            pooled = true
+			dialect = "org.hibernate.dialect.MySQL5InnoDBDialect"
+			username = "myventuser"
+			password = "myvent1234P3t3r" 
             properties {
                maxActive = -1
                minEvictableIdleTimeMillis=1800000

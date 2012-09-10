@@ -45,20 +45,17 @@
 			markerLayer.named(jQuery('#searchLocation').val());
 			
   			//remove options in select
-  			jQuery('#venueList').find('option').remove()
+  			jQuery('#venueList').find('tr').remove()
   			
-			jQuery.each(data.venues,computeResults);
+			jQuery.each(data.venues,addMapmarker);
+			addTableEntries(data);
 			m.setExtent(markerLayer.extent());
 		}
-		function computeResults(indexInArray, valueOfElement) {
+		
+		function addMapmarker(indexInArray, valueOfElement) {
 			//add a marker for every result
-			//add options to select
-			var option = new Option(valueOfElement.name,valueOfElement.id);
-			jQuery('#venueList').append(option);
-			
 			var feature = {
 				  'venue': valueOfElement,
-				  'option': option,
                   geometry: {
                       coordinates: [
                           valueOfElement.location.longitude,
@@ -73,9 +70,42 @@
               };
               
               markerLayer.add_feature(feature);
+       }
+       
+       function addTableEntries(data) {       
               
-              jQuery(option).data('original', feature);
+              //add row to table
+			  //var option = new Option(valueOfElement.name,valueOfElement.id);
+			  //jQuery('#venueList').append(option);
+              //jQuery(option).data('original', feature);
               
+              var r = new Array(), j = -1;
+              
+              r[++j] = '<thead>'+
+						'<tr>'+
+							'<g:sortableColumn property="name" title="${message(code: 'myvent.name.label', default: 'Name')}" />'+
+						
+							'<th class="header"><g:message code="myvent.place.categorie" default="Categories" /></th>'+
+						
+							'<th class="header"><g:message code="myvent.place.address" default="Address" /></th>'+
+						'</tr>'+
+					'</thead> <tbody>';
+              
+			 for (var key=0, size=data.venues.length; key < size; key++){
+			     r[++j] ='<tr><td>';
+			     r[++j] = data.venues[key].name;
+			     r[++j] = '</td><td><ul>';
+			     jQuery.each(data.venues[key].categories, function(index,value){
+			     r[++j] = '<li>'+value.name+'</li>';
+			     })
+			     r[++j] = '</ul></td><td>';
+			     r[++j] = getAddressFromLocation(data.venues[key].location);
+			     r[++j] = '</td></tr>';
+			 }
+			 r[++j] = '</tbody>'
+			 var table = jQuery('<table>').addClass('table table-striped').attr("id","venueList").html(r.join('')); 
+			 
+			 jQuery('#flexContent').html(table).;
               
 		}
 		function markerHover(elem, properties){
@@ -93,6 +123,19 @@
 			if (jQuery('#searchQuery').val()) {
 				result+='&searchQuery='+jQuery('#searchQuery').val();
 			}
+			return result;
+		}
+		
+		function getAddressFromLocation(location){
+			var result = new Array(), j = -1;
+			if (location.adress)
+				result[j++] = '<span>'+location.adress+'</span>'
+			if (location.city)
+				result[j++] = '<span>'+location.city+'</span>'
+			if (location.state)
+				result[j++] = '<span>'+location.state+'</span>'	
+			if (location.country)
+				result[j++] = '<span>'+location.country+'</span>'		
 			return result;
 		}
 		
@@ -157,7 +200,7 @@
 			onkeyup="clearTimeout(timer); timer = setTimeout(function ajax_call(){
 				jQuery.ajax({type:'POST',data:getDataString(), url:'/myvent/foursquare/locationsNear',success:function(data,textStatus){populateList(data, textStatus);},error:function(XMLHttpRequest,textStatus,errorThrown){}})},1000);" 
 				action="locationsNear" controller="foursquare" placeholder="${message(code: 'myvent.search.location.placeholder', default: 'search location or use current map excerpt')}"
-				class="input-xxlarge">
+				class="input">
 			<button id="locateMe" type="button" class="btn" data-title="${message(code: 'myvent.search.current.location.label', default: 'locate me')}"><i class="icon-screenshot"></i></button>
 			
 		</div>
@@ -171,8 +214,9 @@
 			action="locationsNear" controller="foursquare" data-provide="typeahead">
 		
 		<g:select name="venueId" from="" id="venueList" />
-	
-		
+		<g:if test="${invalid}"><span class="help-inline">${errors.join('<br>')}</span></g:if>
+	</div>
+	<div class="controls">
 		<input type="text" data-provide="typeahead" data-source="searchPlace">
 	
 		<g:if test="${invalid}"><span class="help-inline">${errors.join('<br>')}</span></g:if>
