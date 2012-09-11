@@ -12,13 +12,18 @@ import org.springframework.util.Assert;
 
 class FoursquareService {
 	def grailsApplication
-
+	def foursquareServiceProvider
+	
 	def getFoursquareServiceProvider(){
-		String consumerKey = grailsApplication.config.grails.plugins.springsocial.foursquare.clientId ?: ""
-		String consumerSecret = grailsApplication.config.grails.plugins.springsocial.foursquare.clientSecret ?: ""
-		Assert.hasText(consumerKey, "The Foursquare clientId is necessary, please add to the Config.groovy as follows: grails.plugins.springsocial.foursquare.clientId='yourConsumerKey'")
-		Assert.hasText(consumerSecret, "The Foursquare clientSecret is necessary, please add to the Config.groovy as follows: grails.plugins.springsocial.foursquare.clientSecret='yourConsumerSecret'")
-		return new FoursquareServiceProvider(consumerKey,consumerSecret)
+		
+		if (foursquareServiceProvider==null) {
+			String consumerKey = grailsApplication.config.grails.plugins.springsocial.foursquare.clientId ?: ""
+			String consumerSecret = grailsApplication.config.grails.plugins.springsocial.foursquare.clientSecret ?: ""
+			Assert.hasText(consumerKey, "The Foursquare clientId is necessary, please add to the Config.groovy as follows: grails.plugins.springsocial.foursquare.clientId='yourConsumerKey'")
+			Assert.hasText(consumerSecret, "The Foursquare clientSecret is necessary, please add to the Config.groovy as follows: grails.plugins.springsocial.foursquare.clientSecret='yourConsumerSecret'")
+			foursquareServiceProvider = new FoursquareServiceProvider(consumerKey,consumerSecret)
+		}
+		return foursquareServiceProvider
 	}
 	
 	def getVenuesAt(lat,lon,query){

@@ -17,6 +17,7 @@
 		<![endif]-->
 <r:require modules="scaffolding" />
 <r:require modules="mapbox" />
+<r:require modules="scrollto" />
 
 <!-- Le fav and touch icons -->
 <link rel="shortcut icon"
@@ -101,7 +102,7 @@
 			  // Add interaction to this marker layer. This
 			  // binds tooltips to each marker that has title
 			  // and description defined.
-			  mapbox.markers.interaction(markerLayer);
+			  //var interaction = mapbox.markers.interaction(markerLayer);
 			  m.addLayer(markerLayer);
 			
 			</g:javascript>

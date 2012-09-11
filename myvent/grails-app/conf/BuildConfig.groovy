@@ -47,7 +47,7 @@ grails.project.dependency.resolution = {
         runtime ":hibernate:$grailsVersion"
         runtime ":jquery:1.8.0"
         runtime ":resources:1.1.6"
-		runtime ":twitter-bootstrap:2.0.0.16"
+		runtime ":twitter-bootstrap:2.1.0.1"
 		runtime ":fields:1.3"
 		runtime ":geolocation:0.4.1"
 		runtime ":rest-client-builder:1.0.2"
