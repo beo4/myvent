@@ -33,11 +33,12 @@ class FoursquareService {
 
 	def getVenuesNear(near,query){
 		
-		return getFoursquareServiceProvider().getApi().venueOperations().search(new VenueSearchParams().near(near))
+		return getFoursquareServiceProvider().getApi().venueOperations().search(new VenueSearchParams().near(near).query(query))
 	}
 	
 	
 	def suggestVenues(lat, lon, query) {
-		return getFoursquareServiceProvider().getApi().venueOperations().suggestCompletion(new VenueSearchParams().location(lat,lon).query(query))
+		def result = getFoursquareServiceProvider().getApi().venueOperations().suggestCompletion(new VenueSearchParams().location(lat,lon).query(query))
+		return result
 	}
 }

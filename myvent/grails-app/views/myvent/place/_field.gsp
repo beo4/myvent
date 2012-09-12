@@ -4,7 +4,7 @@
 	import="org.springframework.social.foursquare.api.VenueSearchResponse"%>
 <div class="control-group ${invalid ? 'error' : ''}">
 	<g:javascript>
-		var timer, selected, markerFeatures,
+		var timer, selected, markerFeatures=new Array(),
 		    markerColor= '#000',
 	        markerSymbol= 'star-stroked',
 	        markerSize= 'small';
@@ -12,60 +12,79 @@
 		jQuery().ready(function(){
 			//create myvent-create events on click
 			markerLayer.factory(markerFactory);
-			markerLayer.key(function(f) { return f.venue.id;});
-			markerLayer.filter(function(f) { 
-				return true;
-			})
-			//interaction.formatter(tooltip);
+			//markerLayer.key(function(f) { return f.venue.id;});
+			//markerLayer.filter(function(f) { return f.show;});
 			jQuery('#locateMe').tooltip();
+			
+			//add typeahead			
+			
+			jQuery('#places').typeahead({
+				source: function (query, process) {
+				        searchPlace(query, process);
+				    },
+				minLength: 3,
+				updater: function (item) {
+					  <g:remoteFunction params="\'lat=\'+m.center().lat+\'&lon=\'+m.center().lon+\'&query=\'+item" 
+						action="locationsNear" 
+						controller="foursquare"
+						onSuccess="populateList(data.venues, textStatus)"/>
+				      return item
+				    }
+				
+			})
 		});
 		
 		
 		function populateList(data,textStatus) {
-			addMapmarkers(data);
-			addTableEntries(data);
-			m.setExtent(markerLayer.extent());
+			if (data.length>0) {
+				addMapmarkers(data);
+				addTableEntries(data);
+				m.setExtent(markerLayer.extent());
+			}
+			
 		}
 		
-		function addMapmarkers(data) {
+		function addMapmarkers(venues) {
+			
 			markerFeatures = new Array();
-		
 			//add a marker for every result
-			jQuery.each(data.venues, function (index,valueOfElement){
-				markerFeatures[index] = {
-					  'venue': valueOfElement,
-					  show: true,
-	                  geometry: {
-	                      coordinates: [
-	                          valueOfElement.location.longitude,
-	                          valueOfElement.location.latitude]
-	                  },
-	                  properties: {
-	                      'marker-color': markerColor,
-	                      'marker-symbol': markerSymbol,
-	                      title: valueOfElement.name,
-	                      'marker-size': markerSize,
-	                  }
-	              };
-	             }
-              );
+			jQuery.each(venues, function (index,valueOfElement){
+				//see if new venue
+					markerFeatures[index] = {
+						  'venue': valueOfElement,
+						  show: true,
+		                  geometry: {
+		                      coordinates: [
+		                          valueOfElement.location.longitude,
+		                          valueOfElement.location.latitude]
+		                  },
+		                  properties: {
+		                      'marker-color': markerColor,
+		                      'marker-symbol': markerSymbol,
+		                      title: valueOfElement.name,
+		                      'marker-size': markerSize,
+		                  }
+		              }
+		              });
               markerLayer.features(markerFeatures);
        }
        
-       function addTableEntries(data) {       
+       function addTableEntries(venues) {       
               
               var r = new Array(), j = -1;
               //create hole list
               r[++j] = '<ul class="resultList" id="venueList">'; 
-             for (var key=0, size=data.venues.length; key < size; key++){
-				r[++j] ='<li id='+data.venues[key].id+' class="result"><div>';
-				r[++j] = data.venues[key].name; r[++j] = '</div> <ul>'; 
-				jQuery.each(data.venues[key].categories, function(index,value){
+             for (var key=0, size=venues.length; key < size; key++){
+				r[++j] ='<li id='+venues[key].id+' class="result"><div>';
+				r[++j] = venues[key].name; r[++j] = '</div> <ul>'; 
+				jQuery.each(venues[key].categories, function(index,value){
 					r[++j] = '<li>'+value.name+'</li>'; 
 				});
 				r[++j] = '</ul><div>'; 
-				r[++j] = getAddressFromLocation(data.venues[key].location);
-				 r[++j] = '</div></li>';
+				r[++j] = getAddressFromLocation(venues[key].location);
+				r[++j] = '</div>';
+				r[++j] = '<div><a class="btn " href="#"><i class="icon-plus-sign"></i>${message(code: 'myvent.myvent.create', default: 'Create new')}</a></div>';
+				r[++j] = '</li>';
 			}
 			r[++j] = '</ul>';
 			 
@@ -84,32 +103,25 @@
 		            selected=result[0];
 				    result[0]['show']=false;
 				    
-				    animateSelected(selected.marker);
+				    animateSelected(jQuery('#marker'+clickedId));
 				    
 				    
 				}).hover(
 				function(){
 					var elem = jQuery(this);
 					var clickedId = elem.attr('id');
-					var hoverFeature = jQuery.grep(markerLayer.features(), function(f){ return f.venue.id == clickedId; });
-					jQuery(hoverFeature[0].marker).tooltip('show');
+					jQuery('#marker'+clickedId).tooltip('show');
 				},
 				function(){
 					var elem = jQuery(this);
 					var clickedId = elem.attr('id');
-					var hoverFeature = jQuery.grep(markerLayer.features(), function(f){ return f.venue.id == clickedId; });
-					jQuery(hoverFeature[0].marker).tooltip('hide');
+					jQuery('#marker'+clickedId).tooltip('hide');
 				}
 				);
 			 
 			 //replace old content in one step
 			 jQuery('#flexContent').html(table);
               
-		}
-		
-		function markerHover(elem, properties){
-			elem.attr('src',markerRenderer(properties));
-			return elem;
 		}
 		
 		function getDataString(){
@@ -120,8 +132,8 @@
 				result = 'searchLocation='+jQuery('#searchLocation').val();
 			}
 				
-			if (jQuery('#searchQuery').val()) {
-				result+='&searchQuery='+jQuery('#searchQuery').val();
+			if (jQuery('#places').val()) {
+				result+='&query='+jQuery('#places').val();
 			}
 			return result;
 		}
@@ -159,14 +171,26 @@
 		            animateSelected(elem);
 		        });
 		        
-		        jQuery(elem).tooltip({html: tooltip(featureObject), title: featureObject.properties.title})
+		        jQuery(elem).attr('id','marker'+featureObject.venue.id).tooltip({html: tooltip(featureObject), title: featureObject.properties.title})
 		        
 		        featureObject['marker'] = elem;
 		        return elem;
 		    }
 		
 		function searchPlace(query,success) {
-			
+			<g:remoteFunction params="\'lat=\'+m.center().lat+\'&lon=\'+m.center().lon+\'&query=\'+query" 
+						action="suggestLocation" 
+						controller="foursquare"
+						onSuccess="processSearchPlace(data,textStatus,success)"/>
+		}
+		
+		function processSearchPlace(data,textStatus,success){
+			var results = Array(),j = -1;
+			jQuery.each(data, function(index,data){
+				results[++j]=data.name;
+			});
+			populateList(data,textStatus)
+			success(results);
 		}
 		
 		function animateSelected(elem){
@@ -201,8 +225,11 @@
 		<div class="input-append">
 			<input type="text" name="searchLocation" value="" id="searchLocation"
 				onkeyup="clearTimeout(timer); timer = setTimeout(function ajax_call(){
-				jQuery.ajax({type:'POST',data:getDataString(), url:'/myvent/foursquare/locationsNear',success:function(data,textStatus){populateList(data, textStatus);},error:function(XMLHttpRequest,textStatus,errorThrown){}})},1000);"
-				action="locationsNear" controller="foursquare"
+					<g:remoteFunction params="getDataString()" 
+						action="locationsNear" 
+						controller="foursquare"
+						onSuccess="populateList(data.venues, textStatus)"/>
+				},1000)"
 				placeholder="${message(code: 'myvent.search.location.placeholder', default: 'search location or use current map excerpt')}"
 				class="input">
 			<button id="locateMe" type="button" class="btn"
@@ -221,22 +248,8 @@
 		${message(code: 'myvent.'+property+'.place.label', default: 'Location')}
 	</label>
 	<div class="controls">
-		<input type="text" name="searchQuery" value="" id="searchQuery"
-			onkeyup="clearTimeout(timer); timer = setTimeout(function ajax_call(){
-			jQuery.ajax({type:'POST',data:getDataString(), url:'/myvent/foursquare/locationsNear',success:function(data,textStatus){populateList(data, textStatus);},error:function(XMLHttpRequest,textStatus,errorThrown){}})},1000);"
-			action="locationsNear" controller="foursquare"
-			data-provide="typeahead">
-
-		<g:select name="venueId" from="" id="venueList" />
-		<g:if test="${invalid}">
-			<span class="help-inline">
-				${errors.join('<br>')}
-			</span>
-		</g:if>
-	</div>
-	<div class="controls">
-		<input type="text" data-provide="typeahead" data-source="searchPlace">
-
+		<input type="text" id="places">
+		
 		<g:if test="${invalid}">
 			<span class="help-inline">
 				${errors.join('<br>')}
