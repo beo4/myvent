@@ -26,19 +26,13 @@ class FoursquareService {
 		return foursquareServiceProvider
 	}
 	
-	def getVenuesAt(lat,lon,query){
 
-		return getFoursquareServiceProvider().getApi().venueOperations().search(new VenueSearchParams().location(lat,lon).query(query))
-	}
-
-	def getVenuesNear(near,query){
-		
-		return getFoursquareServiceProvider().getApi().venueOperations().search(new VenueSearchParams().near(near).query(query))
+	def findVenues(parameter) {
+		getFoursquareServiceProvider().getApi().venueOperations().search(parameter);
 	}
 	
-	
-	def suggestVenues(lat, lon, query) {
-		def result = getFoursquareServiceProvider().getApi().venueOperations().suggestCompletion(new VenueSearchParams().location(lat,lon).query(query))
-		return result
+	def suggestCompletion(parameter) {
+		getFoursquareServiceProvider().getApi().venueOperations().suggestCompletion(parameter);
 	}
+
 }

@@ -34,7 +34,7 @@
 
 			<fieldset>
 				<g:form class="form-horizontal" action="create">
-					<ul class=" nav nav-tabs">
+					<ul class="nav nav-tabs" id="createMyventTab">
 						<li class="active"><g:link url="#step1" data-toggle="tab">
 								<g:message code="default.create.step1"
 									default="Step 1 Add Place" />

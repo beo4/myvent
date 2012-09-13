@@ -15,6 +15,7 @@
 			//markerLayer.key(function(f) { return f.venue.id;});
 			//markerLayer.filter(function(f) { return f.show;});
 			jQuery('#locateMe').tooltip();
+			jQuery('#searchHere').tooltip();
 			
 			//add typeahead			
 			
@@ -24,7 +25,7 @@
 				    },
 				minLength: 3,
 				updater: function (item) {
-					  <g:remoteFunction params="\'lat=\'+m.center().lat+\'&lon=\'+m.center().lon+\'&query=\'+item" 
+					  <g:remoteFunction params="\'latitude=\'+m.center().lat+\'&longitude=\'+m.center().lon+\'&query=\'+item" 
 						action="locationsNear" 
 						controller="foursquare"
 						onSuccess="populateList(data.venues, textStatus)"/>
@@ -105,6 +106,7 @@
 				    
 				    animateSelected(jQuery('#marker'+clickedId));
 				    
+				    jQuery('#createMyventTab a[href="#step2"]').tab('show');
 				    
 				}).hover(
 				function(){
@@ -127,14 +129,28 @@
 		function getDataString(){
 		    var result
 			if (!jQuery('#searchLocation').val()) {
-				result = 'lat='+m.center().lat+'&'+'lon='+m.center().lon;
+				result = getMapCenterDataString();
 			} else {
-				result = 'searchLocation='+jQuery('#searchLocation').val();
+				result = 'near='+jQuery('#searchLocation').val();
 			}
 				
 			if (jQuery('#places').val()) {
 				result+='&query='+jQuery('#places').val();
 			}
+			return result;
+		}
+		
+		function getMapCenterDataString(){
+		    
+				result = 'latitude='+m.center().lat+'&'+'longitude='+m.center().lon;
+			
+			return result;
+		}
+		
+		function getMapExtentDataString(){
+		    	var ext = m.getExtent()
+				result = 'sw='+ext.south+','+ext.west+'&ne='+ext.north+','+ext.east;
+			
 			return result;
 		}
 		
@@ -169,6 +185,8 @@
 		            featureObject['show'] = false;
 		            
 		            animateSelected(elem);
+		            
+		            jQuery('#createMyventTab a[href="#step2"]').tab('show');
 		        });
 		        
 		        jQuery(elem).attr('id','marker'+featureObject.venue.id).tooltip({html: tooltip(featureObject), title: featureObject.properties.title})
@@ -178,8 +196,8 @@
 		    }
 		
 		function searchPlace(query,success) {
-			<g:remoteFunction params="\'lat=\'+m.center().lat+\'&lon=\'+m.center().lon+\'&query=\'+query" 
-						action="suggestLocation" 
+			<g:remoteFunction params="\'latitude=\'+m.center().lat+\'&longitude=\'+m.center().lon+\'&query=\'+query" 
+						action="suggestCompletion" 
 						controller="foursquare"
 						onSuccess="processSearchPlace(data,textStatus,success)"/>
 		}
@@ -217,6 +235,33 @@
 		    return o;
 		}
 		
+		function geoLocateMe() {
+			//reset the search field
+			jQuery('#searchLocation').val('');
+			
+			//try to geoloc
+			if (navigator.geolocation) {
+			    var location_timeout = setTimeout("geolocFail()", 10000);
+			    navigator.geolocation.getCurrentPosition(
+				function(position) {
+					clearTimeout(location_timeout);
+					foundLocation(position);
+					geolocSuccess(position);
+			    	},
+			    function(error) {
+			        clearTimeout(location_timeout);
+			        geolocFail();
+			    });
+			}
+			
+		}
+		
+		function searchPlacesHere() {
+			<g:remoteFunction params="getMapExtentDataString()+'&intent=BROWSE'" 
+						action="locationsNear" 
+						controller="foursquare"
+						onSuccess="populateList(data.venues, textStatus)"/>
+		}
 	</g:javascript>
 	<label class="control-label" for="${property}">
 		${message(code: 'myvent.'+property+'.searchLocation.label', default: label)}
@@ -232,9 +277,15 @@
 				},1000)"
 				placeholder="${message(code: 'myvent.search.location.placeholder', default: 'search location or use current map excerpt')}"
 				class="input">
-			<button id="locateMe" type="button" class="btn"
+
+			<button id="locateMe" type="button" class="btn" onclick="geoLocateMe();"
 				data-title="${message(code: 'myvent.search.current.location.label', default: 'locate me')}">
 				<i class="icon-screenshot"></i>
+			</button>
+			
+			<button id="searchHere" type="button" class="btn" onclick="searchPlacesHere();"
+				data-title="${message(code: 'myvent.search.here.label', default: 'search here')}">
+				<i class="icon-search"></i>
 			</button>
 
 		</div>

@@ -23,6 +23,8 @@ class Myvent {
 	Place place
 	List<Period> periods
 	
+	
+	
 	Image eventPicture
 	
 	List<Category> categories

@@ -1,5 +1,7 @@
 package de.myvent
 
+import org.springframework.social.foursquare.api.VenueSearchParams;
+
 import grails.converters.JSON
 
 class FoursquareController {
@@ -10,29 +12,58 @@ class FoursquareController {
 		
 	}
 	
-	def locationsNear() { 
+	def locationsNear() {
+		
+		def searchParameter = new VenueSearchParams(
+				sw: params.sw,
+				ne: params.ne,
+				query: params.query,
+				intent: params.intent,
+				near: params.near,
+				latitude: (params.latitude) ? new Double(params.latitude) : null,
+				longitude: (params.longitude) ? new Double(params.longitude) :null,
+				limit: params.limit
+				  ) 
+		
 		def venues
-		if (((params.lat&&params.lon)||session['position'])&&!params.searchLocation) {
-			def position = session['position']
-			if (params.lat&&params.lon) {
-				venues = foursquareService.getVenuesAt(Double.valueOf(params.lat),Double.valueOf(params.lon),params.query)
-			} else if (position) {
-				venues = foursquareService.getVenuesAt(position.coords.latitude,position.coords.longitude,params.query)
-			}
-			
-			
-		} else {
-			venues = foursquareService.getVenuesNear(params.searchLocation,params.query)
+		
+		if (!((searchParameter.getLatitude()&&searchParameter.getLongitude()) || searchParameter.getNear() || (searchParameter.getNe()&&searchParameter.getSw()) ) ) {
+			searchParameter.location(position.coords.latitude,position.coords.longitude)
 		}
+		
+					
+			
+		venues = foursquareService.findVenues(searchParameter)
 		
 		session.venueSearchResult = venues
 		render venues as JSON
 	}
 	
-	def suggestLocation() {
-			def venues = foursquareService.suggestVenues(Double.valueOf(params.lat),Double.valueOf(params.lon),params.query)
-			render venues as JSON
+	def suggestCompletion() {
+		
+		def searchParameter = new VenueSearchParams(
+				sw: params.sw,
+				ne: params.ne,
+				query: params.query,
+				intent: params.intent,
+				near: params.near,
+				latitude: (params.latitude) ? new Double(params.latitude) : null,
+				longitude: (params.longitude) ? new Double(params.longitude) :null,
+				limit: params.limit
+				  )
+		
+		def venues
+		
+		if (!((searchParameter.getLatitude()&&searchParameter.getLongitude()) || searchParameter.getNear() || (searchParameter.getNe()&&searchParameter.getSw()) ) ) {
+			searchParameter.location(position.coords.latitude,position.coords.longitude)
+		}
+		
+					
+			
+		venues = foursquareService.suggestCompletion(searchParameter)
+		
+		session.venueSearchResult = venues
+		render venues as JSON
 	}
-	
 	
 }
