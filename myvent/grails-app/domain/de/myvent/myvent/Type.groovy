@@ -1,5 +1,7 @@
 package de.myvent.myvent
 
+import java.awt.Color;
+
 import de.myvent.util.Image;
 
 class Type {
@@ -8,6 +10,8 @@ class Type {
     }
 	
 	String name
+	
+	Color color
 	
 	Image typePicture
 }

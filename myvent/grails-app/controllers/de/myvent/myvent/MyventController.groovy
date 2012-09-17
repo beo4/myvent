@@ -18,7 +18,7 @@ class MyventController {
     def create() {
 		switch (request.method) {
 		case 'GET':
-        	[myventInstance: new Myvent(params), periodInstance: new Period(params)]
+        	[myventInstance: new Myvent(params), appointmentInstance: new Appointment(params)]
 			break
 		case 'POST':
 	        def myventInstance = new Myvent(params)

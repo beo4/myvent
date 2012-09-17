@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest
 import de.myvent.util.Image;
 
 class ImageController {
+	def uploadService
 
     static allowedMethods = [create: ['GET', 'POST'], edit: ['GET', 'POST'], delete: 'POST']
 
