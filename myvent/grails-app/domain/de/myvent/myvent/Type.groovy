@@ -7,11 +7,13 @@ import de.myvent.util.Image;
 class Type {
 
     static constraints = {
+		color( widget:"colorpicker", nullable:true)
+		typePicture(nullable: true, blank:true)
     }
 	
 	String name
 	
-	Color color
+	String color
 	
 	Image typePicture
 }

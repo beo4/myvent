@@ -156,7 +156,7 @@ class ImageController {
 			statusText  = "'${fileName}' upload successful!"
 			// render json response
 			response.setStatus(status, statusText)
-			render([written: (status == 200), fileName: fileName, status: status, statusText: statusText] as JSON)
+			render([written: (status == 200), fileName: fileName, status: status, statusText: statusText, fileId: imageInstance.id] as JSON)
 			return render(text: [success:true, id: imageInstance.id] as JSON, contentType:'text/json')
 
 		} catch (Exception e) {

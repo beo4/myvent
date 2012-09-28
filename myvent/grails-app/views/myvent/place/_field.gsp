@@ -12,8 +12,6 @@
 		jQuery().ready(function(){
 			//create myvent-create events on click
 			markerLayer.factory(markerFactory);
-			//markerLayer.key(function(f) { return f.venue.id;});
-			//markerLayer.filter(function(f) { return f.show;});
 			jQuery('#locateMe').tooltip();
 			jQuery('#searchHere').tooltip();
 			
@@ -102,10 +100,12 @@
 				    var result = jQuery.grep(markerLayer.features(), function(f){ return f.venue.id == clickedId; });
 				    (selected) ? selected['show']=true : null;
 		            selected=result[0];
+		            
 				    result[0]['show']=false;
 				    
 				    animateSelected(jQuery('#marker'+clickedId));
-				    
+				    jQuery('#venueId').val(clickedId);
+				    var place = selected.venue;
 				    jQuery('#createMyventTab a[href="#step2"]').tab('show');
 				    
 				}).hover(
@@ -183,9 +183,9 @@
 					(selected) ? selected['show']=true : null;
 		            selected=featureObject;
 		            featureObject['show'] = false;
-		            
+		            var place = selected.venue;
+		            jQuery('#venueId').val(place.id);
 		            animateSelected(elem);
-		            
 		            jQuery('#createMyventTab a[href="#step2"]').tab('show');
 		        });
 		        
@@ -306,5 +306,6 @@
 				${errors.join('<br>')}
 			</span>
 		</g:if>
+		<input type="hidden" id="venueId" name="venueId">
 	</div>
 </div>
