@@ -47,7 +47,7 @@ grails.project.dependency.resolution = {
         runtime ":hibernate:$grailsVersion"
         runtime ":jquery:1.8.0"
         runtime ":resources:1.1.6"
-		runtime ":twitter-bootstrap:2.1.0.1"
+		runtime ":twitter-bootstrap:2.1.1"
 		runtime ":fields:1.3"
 		runtime ":geolocation:0.4.1"
 		runtime ":rest-client-builder:1.0.2"
@@ -66,6 +66,6 @@ grails.project.dependency.resolution = {
         build ":tomcat:$grailsVersion"
     }
 }
-grails.plugin.location.'grails-spring-social-foursquare' = "../../grails-spring-social-foursquare-git/grails-spring-social-foursquare"
-//grails.plugin.location.'grails-spring-social-foursquare' = "C:/Develop/workspace/sts-3.0.0/grails-spring-social-foursquare/grails-spring-social-foursquare"
+//grails.plugin.location.'grails-spring-social-foursquare' = "../../grails-spring-social-foursquare-git/grails-spring-social-foursquare"
+grails.plugin.location.'grails-spring-social-foursquare' = "C:/Develop/workspace/sts-3.0.0/grails-spring-social-foursquare/grails-spring-social-foursquare"
 //grails.plugin.location.'grails-spring-social-foursquare' = "C:\Users\behounek\git\grails-spring-social-foursquare-git\grails-spring-social-foursquare"
