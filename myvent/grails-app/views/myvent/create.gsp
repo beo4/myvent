@@ -33,7 +33,7 @@
 			</g:hasErrors>
 
 			<fieldset>
-				<g:form class="form-horizontal" action="create">
+				<g:form class="form-horizontal tabbable tabs-left" action="create">
 					<ul class="nav nav-tabs" id="createMyventTab">
 						<li class="active"><g:link url="#step1" data-toggle="tab">
 								<g:message code="default.create.step1"
@@ -45,20 +45,31 @@
 						<li><g:link url="#step3" data-toggle="tab">
 								<g:message code="default.create.step3" default="Step 3 Event" />
 							</g:link></li>
+						<li><g:link url="#step4" data-toggle="tab">
+								<g:message code="default.create.step4" default="Step 4 Save" />
+							</g:link></li>
 					</ul>
 					<div class="tab-content">
+					<f:with bean="appointmentInstance" >
 						<div class="tab-pane active" id="step1">
 							<fieldset>
-								<f:field property="place" bean="myventInstance" />
+								<f:field property="place" />
 							</fieldset>
 						</div>
 						<div class="tab-pane" id="step2">
 							<fieldset>
-								<f:field property="start" bean="periodInstance" />
-								<f:field property="stop" bean="periodInstance" />
+								<f:field property="start"/>
+								<f:field property="stop"/>
 							</fieldset>
 						</div>
+					</f:with>
+					<f:with bean="myventInstance"></f:with>
 						<div class="tab-pane" id="step3">
+							<fieldset>
+								<f:all bean="myventInstance"/>
+							</fieldset>
+						</div>
+						<div class="tab-pane" id="step4">
 							<div class="form-actions">
 								<button type="submit" class="btn btn-primary">
 									<i class="icon-ok icon-white"></i>

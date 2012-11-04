@@ -55,6 +55,12 @@
 								${message(code: 'myvent.myvent.create.label', default: 'New Myvent')}
 							</g:link>
 						</li>
+						<li
+							<%= "type" == controllerName ? ' class="active"' : '' %>>
+							<g:link controller="type">
+								${message(code: 'myvent.type.label', default: 'Event Types')}
+							</g:link>
+						</li>
 					</ul>
 				</div>
 				<g:form class="navbar-search pull-right">

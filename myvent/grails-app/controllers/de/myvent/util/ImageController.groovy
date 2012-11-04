@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest
 import de.myvent.util.Image;
 
 class ImageController {
+	def uploadService
 
     static allowedMethods = [create: ['GET', 'POST'], edit: ['GET', 'POST'], delete: 'POST']
 
@@ -155,7 +156,7 @@ class ImageController {
 			statusText  = "'${fileName}' upload successful!"
 			// render json response
 			response.setStatus(status, statusText)
-			render([written: (status == 200), fileName: fileName, status: status, statusText: statusText] as JSON)
+			render([written: (status == 200), fileName: fileName, status: status, statusText: statusText, fileId: imageInstance.id] as JSON)
 			return render(text: [success:true, id: imageInstance.id] as JSON, contentType:'text/json')
 
 		} catch (Exception e) {

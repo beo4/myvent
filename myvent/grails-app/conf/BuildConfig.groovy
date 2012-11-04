@@ -46,6 +46,7 @@ grails.project.dependency.resolution = {
     plugins {
         runtime ":hibernate:$grailsVersion"
         runtime ":jquery:1.8.0"
+		runtime ":jquery-ui:1.8.15"
         runtime ":resources:1.1.6"
 		runtime ":twitter-bootstrap:2.1.1"
 		runtime ":fields:1.3"
@@ -57,6 +58,8 @@ grails.project.dependency.resolution = {
 		runtime ':spring-social-core:0.1.31'
 		runtime ':spring-social-twitter:0.1.31'
 		runtime ':joda-time:1.4'
+		runtime ':uploadr:0.5.11'
+		runtime ':modernizr:2.5.3'
 		
         // Uncomment these (or add new ones) to enable additional resources capabilities
         //runtime ":zipped-resources:1.0"

@@ -5,10 +5,8 @@ import de.myvent.util.Image;
 class Myvent {
 
     static constraints = {
-		place()
 		name  type: 'text'
 		
-		periods()
 		
 		type()
 		description type: 'text', widget: 'textarea'
@@ -20,8 +18,7 @@ class Myvent {
 	String description
 	Type type
 	
-	Place place
-	List<Period> periods
+	List<Appointment> appointments
 	
 	
 	
